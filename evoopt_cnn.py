@@ -302,10 +302,10 @@ def _evaluate(individual, model, x_train, y_train, x_test, y_test, batch_size, e
 
     # Train the model
     model.compile(loss="categorical_crossentropy", optimizer=optimizer, metrics=["accuracy"])
-    model.fit(x_train, y_train, batch_size=batch_size, epochs=epochs, validation_split=0.1, verbose=0)
+    model.fit(x_train, y_train, batch_size=batch_size, epochs=epochs, validation_split=0.1, verbose=1)
 
     # Return the accuracy of the model as the fitness
-    score = model.evaluate(x_test, y_test, verbose=0)
+    score = model.evaluate(x_test, y_test, verbose=1)
     return [score[1]]
 
 
