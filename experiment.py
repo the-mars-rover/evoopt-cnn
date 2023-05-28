@@ -7,6 +7,16 @@ import multiprocessing
 import evoopt_cnn
 import models
 import datasets
+import tensorflow
+
+# Make sure we enable memory growth for all GPUs, because we do not want to allocate all memory on the devices.
+gpus = tensorflow.config.list_physical_devices('GPU')
+if gpus:
+    try:
+        for gpu in gpus:
+            tensorflow.config.experimental.set_memory_growth(gpu, True)
+    except RuntimeError as e:
+        print(e)
 
 # Setup the argument parser for this script
 parser = argparse.ArgumentParser(description='Run an experiment using the EvoOpt-CNN algorithm.')
@@ -62,11 +72,13 @@ if __name__ == '__main__':
     model = models.get_model(model_name=args.model, input_shape=input_shape, num_classes=num_classes)
     print('EvoOpt Experiment >>> model has been initialized.')
 
-    print("EvoOpt Experiment >>> running the evolutionary algorithm with the given hyper-parameters. This may take a while. Statistics for every generation will be printed below.")
+    print(
+        "EvoOpt Experiment >>> running the evolutionary algorithm with the given hyper-parameters. This may take a while. Statistics for every generation will be printed below.")
     hof, log = evoopt_cnn.run(
         model=model, x_train=x_train, y_train=y_train, x_test=x_test, y_test=y_test, tournsize=args.tournsize,
         batch_size=args.batch_size, epochs=args.epochs, gene_mut_prob=args.gene_mut_prob,
-        multiprocessing_pool=multiprocessing_pool,  pop_size=args.pop_size, cxpb=args.cxpb, mutpb=args.mutpb, ngen=args.ngen)
+        multiprocessing_pool=multiprocessing_pool, pop_size=args.pop_size, cxpb=args.cxpb, mutpb=args.mutpb,
+        ngen=args.ngen)
     print('EvoOpt Experiment >>> evolutionary algorithm has completed successfully.')
 
     print('EvoOpt Experiment >>> saving the results to the folder specified in the arguments.')
