@@ -1,0 +1,26 @@
+#!/bin/bash
+
+cd /mnt/lustre/users/${EXP_USR}/evoopt-cnn || exit
+
+module purge
+
+module load chpc/python/anaconda/3-2021.11
+
+source /apps/chpc/chem/anaconda3-2021.11/etc/profile.d/conda.sh
+
+conda activate evoopt-cnn-env
+
+python3 --results_path '/mnt/lustre/users/mbornman1/evoopt-cnn/results' \
+ --seed "${EXP_SED}" \
+ --cpu_count "${EXP_CPU}" \
+ --dataset "${EXP_DTA}" \
+ --pop_size "${EXP_POP}" \
+ --ngen "${EXP_GEN}" \
+ --model "${EXP_MOD}" \
+ --epochs "${EXP_EPO}" \
+ --batch_size "${EXP_BAT}" \
+ --tournsize "${EXP_TRN}" \
+ --cxpb "0.${EXP_CXP}" \
+ --mutpb "0.${EXP_MUT}" \
+ --gene_mut_prob "0.${EXP_GMP}" \
+ experiment.py
