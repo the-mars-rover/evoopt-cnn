@@ -8,6 +8,7 @@ from deap import creator
 from deap import tools
 from deap import algorithms
 from tensorflow import keras
+from scoop import futures
 
 # The toolbox must be initialized here, otherwise the DEAP library does not work.
 toolbox = base.Toolbox()
@@ -431,7 +432,7 @@ def _register_genetic_operators(gene_mut_prob):
 # ========================================= EVOLUTIONARY ALGORITHM =====================================================
 # ======================================================================================================================
 
-def run(model, x_train, y_train, x_test, y_test, tournsize, batch_size, epochs, gene_mut_prob, multiprocessing_pool,
+def run(model, x_train, y_train, x_test, y_test, tournsize, batch_size, epochs, gene_mut_prob,
         pop_size, cxpb, mutpb, ngen):
     # Setup the DEAP toolbox
     _register_individual()
@@ -439,7 +440,7 @@ def run(model, x_train, y_train, x_test, y_test, tournsize, batch_size, epochs, 
     _register_selection_method(tournsize)
     _register_evaluate(model, x_train, y_train, x_test, y_test, batch_size, epochs)
     _register_genetic_operators(gene_mut_prob)
-    toolbox.register("map", multiprocessing_pool.map)
+    toolbox.register("map", futures.map)
 
     # Setup the hall of fame and stats we want to keep track of
     hof = tools.HallOfFame(10)
