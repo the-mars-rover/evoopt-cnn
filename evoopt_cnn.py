@@ -427,7 +427,7 @@ def _mutate_optimizer(individual, gene_mut_prob):
 
 def _register_genetic_operators(gene_mut_prob):
     toolbox.register("mate", tools.cxTwoPoint)
-    toolbox.register("mutate", _mutate_optimizer, gene_mut_prob)
+    toolbox.register("mutate", _mutate_optimizer, gene_mut_prob=gene_mut_prob)
 
 
 # ======================================================================================================================
