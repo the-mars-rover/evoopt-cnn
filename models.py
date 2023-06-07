@@ -30,11 +30,14 @@ def _get_alexnet(input_shape, num_classes):
         ])
 
 
-def get_model(model_name, input_shape, num_classes):
+def get_model_instantiator(model_name, input_shape, num_classes):
     if model_name == 'alexnet':
-        return _get_alexnet(input_shape, num_classes)
+        def get_alexnet_instantiator():
+            return _get_alexnet(input_shape, num_classes)
+
+        return get_alexnet_instantiator
 
     return None
 
 
-__all__ = ['get_model']
+__all__ = ['get_model_instantiator']

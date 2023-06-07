@@ -297,11 +297,12 @@ def _register_population_initialization():
 # ========================================= FITNESS EVALUATION =========================================================
 # ======================================================================================================================
 
-def _evaluate(individual, model, x_train, y_train, x_test, y_test, batch_size, epochs):
+def _evaluate(individual, model_instantiator, x_train, y_train, x_test, y_test, batch_size, epochs):
     # Get the optimizer from the list that the individual is represented by
     optimizer = get_optimizer(individual)
 
     # Train the model
+    model = model_instantiator()
     model.compile(loss="categorical_crossentropy", optimizer=optimizer, metrics=["accuracy"])
     model.fit(x_train, y_train, batch_size=batch_size, epochs=epochs, validation_split=0.1, verbose=1)
 
@@ -310,8 +311,8 @@ def _evaluate(individual, model, x_train, y_train, x_test, y_test, batch_size, e
     return [score[1]]
 
 
-def _register_evaluate(model, x_train, y_train, x_test, y_test, batch_size, epochs):
-    toolbox.register("evaluate", _evaluate, model=model, x_train=x_train, y_train=y_train, x_test=x_test, y_test=y_test,
+def _register_evaluate(model_instantiator, x_train, y_train, x_test, y_test, batch_size, epochs):
+    toolbox.register("evaluate", _evaluate, model_instantiator=model_instantiator, x_train=x_train, y_train=y_train, x_test=x_test, y_test=y_test,
                      batch_size=batch_size, epochs=epochs)
 
 
@@ -432,13 +433,13 @@ def _register_genetic_operators(gene_mut_prob):
 # ========================================= EVOLUTIONARY ALGORITHM =====================================================
 # ======================================================================================================================
 
-def run(model, x_train, y_train, x_test, y_test, tournsize, batch_size, epochs, gene_mut_prob,
+def run(model_instantiator, x_train, y_train, x_test, y_test, tournsize, batch_size, epochs, gene_mut_prob,
         pop_size, cxpb, mutpb, ngen):
     # Setup the DEAP toolbox
     _register_individual()
     _register_population_initialization()
     _register_selection_method(tournsize)
-    _register_evaluate(model, x_train, y_train, x_test, y_test, batch_size, epochs)
+    _register_evaluate(model_instantiator, x_train, y_train, x_test, y_test, batch_size, epochs)
     _register_genetic_operators(gene_mut_prob)
     toolbox.register("map", futures.map)
 
