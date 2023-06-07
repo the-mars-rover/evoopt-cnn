@@ -3,6 +3,7 @@
 import random
 import numpy
 import models
+import tensorflow
 
 from deap import base
 from deap import creator
@@ -10,6 +11,22 @@ from deap import tools
 from deap import algorithms
 from tensorflow import keras
 from scoop import futures
+
+# ======================================================================================================================
+# ========================================= INITIAL SETUP ==============================================================
+# ======================================================================================================================
+
+# Make sure we enable memory growth for all GPUs, because we do not want to allocate all memory on the devices.
+gpus = tensorflow.config.list_physical_devices('GPU')
+if gpus:
+    try:
+        for gpu in gpus:
+            tensorflow.config.experimental.set_memory_growth(gpu, True)
+    except RuntimeError as e:
+        print(e)
+
+# Create a MirroredStrategy for tensorflow
+strategy = tensorflow.distribute.MirroredStrategy()
 
 # The toolbox must be initialized here, otherwise the DEAP library does not work.
 toolbox = base.Toolbox()
@@ -299,12 +316,18 @@ def _register_population_initialization():
 # ======================================================================================================================
 
 def _evaluate(individual, model_name, input_shape, num_classes, x_train, y_train, x_test, y_test, batch_size, epochs):
-    # Get the optimizer from the list that the individual is represented by
-    optimizer = get_optimizer(individual)
+
+    # Open a strategy scope. Everything that creates variables should be under the strategy scope.
+    # In general this is only model construction & `compile()`.
+    with strategy.scope():
+        # Get the optimizer from the list that the individual is represented by
+        optimizer = get_optimizer(individual)
+
+        # Compile the model
+        model = models.get_model(model_name, input_shape, num_classes)
+        model.compile(loss="categorical_crossentropy", optimizer=optimizer, metrics=["accuracy"])
 
     # Train the model
-    model = models.get_model(model_name, input_shape, num_classes)
-    model.compile(loss="categorical_crossentropy", optimizer=optimizer, metrics=["accuracy"])
     model.fit(x_train, y_train, batch_size=batch_size, epochs=epochs, validation_split=0.1, verbose=1)
 
     # Return the accuracy of the model as the fitness

@@ -5,16 +5,6 @@ import random
 import argparse
 import evoopt_cnn
 import datasets
-import tensorflow
-
-# Make sure we enable memory growth for all GPUs, because we do not want to allocate all memory on the devices.
-gpus = tensorflow.config.list_physical_devices('GPU')
-if gpus:
-    try:
-        for gpu in gpus:
-            tensorflow.config.experimental.set_memory_growth(gpu, True)
-    except RuntimeError as e:
-        print(e)
 
 # Setup the argument parser for this script
 parser = argparse.ArgumentParser(description='Run an experiment using the EvoOpt-CNN algorithm.')
