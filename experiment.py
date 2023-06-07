@@ -4,7 +4,6 @@ import pickle
 import random
 import argparse
 import evoopt_cnn
-import models
 import datasets
 import tensorflow
 
@@ -62,13 +61,10 @@ if __name__ == '__main__':
     (input_shape, num_classes), (x_train, y_train), (x_test, y_test) = datasets.load_dataset(dataset_name=args.dataset)
     print('EvoOpt Experiment >>> dataset has been loaded.')
 
-    print('EvoOpt Experiment >>> getting the appropriate NN architecture model instantiator.')
-    model_instantiator = models.get_model_instantiator(model_name=args.model, input_shape=input_shape, num_classes=num_classes)
-    print('EvoOpt Experiment >>> model has been initialized.')
-
     print("EvoOpt Experiment >>> running the evolutionary algorithm with the given hyper-parameters. This may take a while. Statistics for every generation will be printed below.")
     hof, log = evoopt_cnn.run(
-        model_instantiator=model_instantiator, x_train=x_train, y_train=y_train, x_test=x_test, y_test=y_test, tournsize=args.tournsize,
+        model_name=args.model, input_shape=input_shape, num_classes=num_classes,
+        x_train=x_train, y_train=y_train, x_test=x_test, y_test=y_test, tournsize=args.tournsize,
         batch_size=args.batch_size, epochs=args.epochs, gene_mut_prob=args.gene_mut_prob,
         pop_size=args.pop_size, cxpb=args.cxpb, mutpb=args.mutpb, ngen=args.ngen)
     print('EvoOpt Experiment >>> evolutionary algorithm has completed successfully.')
