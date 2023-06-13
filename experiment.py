@@ -5,7 +5,6 @@ import random
 import argparse
 import evoopt_cnn
 import datasets
-import os
 
 # Setup the argument parser for this script
 parser = argparse.ArgumentParser(description='Run an experiment using the EvoOpt-CNN algorithm.')
