@@ -1,6 +1,8 @@
 #!/bin/bash
 
-cd /mnt/lustre/users/${EXP_USR}/evoopt-cnn || exit
+cd ${EXP_PTH} || exit
+
+mkdir -p "${EXP_PTH}/results/${EXP_NAM}"
 
 module purge
 
@@ -10,9 +12,9 @@ source /apps/chpc/chem/anaconda3-2021.11/etc/profile.d/conda.sh
 
 conda activate evoopt-cnn-env
 
-python3 --results_path '/mnt/lustre/users/mbornman1/evoopt-cnn/results' \
+python3 -m scoop -n "${EXP_CPU}"  experiment.py \
+ --results_path "${EXP_PTH}/results/${EXP_NAM}" \
  --seed "${EXP_SED}" \
- --cpu_count "${EXP_CPU}" \
  --dataset "${EXP_DTA}" \
  --pop_size "${EXP_POP}" \
  --ngen "${EXP_GEN}" \
@@ -22,5 +24,7 @@ python3 --results_path '/mnt/lustre/users/mbornman1/evoopt-cnn/results' \
  --tournsize "${EXP_TRN}" \
  --cxpb "0.${EXP_CXP}" \
  --mutpb "0.${EXP_MUT}" \
- --gene_mut_prob "0.${EXP_GMP}" \
- experiment.py
+ --gene_mut_prob "0.${EXP_GMP}"
+
+cd /mnt/lustre/users/mbornman1/evoopt-cnn
+python3 -m scoop -n 4 experiment.py --results_path "/mnt/lustre/users/mbornman1/evoopt-cnn/results/test" --seed 1 --cpu_count 4 --dataset "fashion_mnist" --pop_size 5 --ngen 5 --model "alexnet" --epochs 10 --batch_size 128 --tournsize 3 --cxpb 0.8 --mutpb 0.1 --gene_mut_prob 0.5

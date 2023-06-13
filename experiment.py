@@ -5,6 +5,7 @@ import random
 import argparse
 import evoopt_cnn
 import datasets
+import os
 
 # Setup the argument parser for this script
 parser = argparse.ArgumentParser(description='Run an experiment using the EvoOpt-CNN algorithm.')
@@ -12,8 +13,6 @@ parser.add_argument('--results_path', dest='results_path', type=str, default='./
                     help='path to the folder where result files will be stored (defaults to \'./experiment_results\')')
 parser.add_argument('--seed', dest='seed', type=int, default=1,
                     help='a seed that can be used in future to produce the same results (defaults to 1)')
-parser.add_argument('--cpu_count', dest='cpu_count', type=int, default=1,
-                    help='the number of CPU cores to use for multiprocessing (defaults to 1)')
 parser.add_argument('--dataset', dest='dataset', choices=['mnist', 'fashion_mnist'], default='mnist',
                     help='the dataset to run the experiment on (defaults to \'mnist\')')
 parser.add_argument('--pop_size', dest='pop_size', type=int, default=100,
@@ -60,13 +59,13 @@ if __name__ == '__main__':
     print('EvoOpt Experiment >>> evolutionary algorithm has completed successfully.')
 
     print('EvoOpt Experiment >>> saving the results to the folder specified in the arguments.')
-    file = open(args.results_path + "/" + str(args.seed) + '.arg', 'wb')
+    file = open(args.results_path + '/' + str(args.seed) + '.arg', 'wb')
     pickle.dump(args, file)
     file.close()
-    file = open(args.results_path + "/" + str(args.seed) + '.log', 'wb')
+    file = open(args.results_path + '/' + str(args.seed) + '.log', 'wb')
     pickle.dump(log, file)
     file.close()
-    file = open(args.results_path + "/" + str(args.seed) + '.hof', 'wb')
+    file = open(args.results_path + '/' + str(args.seed) + '.hof', 'wb')
     pickle.dump(hof, file)
     file.close()
     print('EvoOpt Experiment >>> experiment results have been saved to the specified folder.')
