@@ -4,6 +4,7 @@ import random
 import numpy
 import models
 import tensorflow
+import os
 
 from deap import base
 from deap import creator
@@ -17,6 +18,7 @@ from scoop import futures
 # ======================================================================================================================
 
 # Make sure we enable memory growth for all GPUs, because we do not want to allocate all memory on the devices.
+os.environ['TF_FORCE_GPU_ALLOW_GROWTH'] = 'true'
 gpus = tensorflow.config.list_physical_devices('GPU')
 if gpus:
     try:
