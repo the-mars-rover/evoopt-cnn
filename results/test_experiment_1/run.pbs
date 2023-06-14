@@ -1,0 +1,29 @@
+#!/bin/bash
+#PBS -P CSCI0806
+#PBS -N test_experiment_1
+#PBS -l select=1:ncpus=4:ngpus=1
+#PBS -l walltime=00:30:00
+#PBS -q gpu_1
+#PBS -m abe
+#PBS -M u15024522@tuks.co.za
+#PBS -o /mnt/lustre/users/mbornman1/evoopt-cnn/experiments/test_experiment_1/1.out
+#PBS -e /mnt/lustre/users/mbornman1/evoopt-cnn/experiments/test_experiment_1/1.err
+#PBS
+module purge
+module load chpc/python/anaconda/3-2021.11
+source /apps/chpc/chem/anaconda3-2021.11/etc/profile.d/conda.sh
+conda activate evoopt-cnn-env
+cd /mnt/lustre/users/mbornman1/evoopt-cnn
+python3 -m scoop -n 1 experiment.py \
+ --results_path "/mnt/lustre/users/mbornman1/evoopt-cnn/experiments/test_experiment_1" \
+ --seed 1 \
+ --dataset "fashion_mnist" \
+ --pop_size 5 \
+ --ngen 5 \
+ --model "alexnet" \
+ --epochs 10 \
+ --batch_size 128 \
+ --tournsize 3 \
+ --cxpb 0.8 \
+ --mutpb 0.2 \
+ --gene_mut_prob 0.5
