@@ -5,11 +5,14 @@ import random
 import argparse
 import evoopt_cnn
 import datasets
+import multiprocessing
 
 # Setup the argument parser for this script
 parser = argparse.ArgumentParser(description='Run an experiment using the EvoOpt-CNN algorithm.')
 parser.add_argument('--results_path', dest='results_path', type=str, default='./experiment_results',
                     help='path to the folder where result files will be stored (defaults to \'./experiment_results\')')
+parser.add_argument('--cpu_count', dest='cpu_count', type=int, default=1,
+                    help='the number of CPU cores to use for multiprocessing (defaults to 1)')
 parser.add_argument('--seed', dest='seed', type=int, default=1,
                     help='a seed that can be used in future to produce the same results (defaults to 1)')
 parser.add_argument('--dataset', dest='dataset', choices=['mnist', 'fashion_mnist'], default='mnist',
@@ -45,6 +48,11 @@ if __name__ == '__main__':
     random.seed(args.seed)
     print('EvoOpt Experiment >>> random seed has been set.')
 
+    print('EvoOpt Experiment >>> initializing the multiprocessing pool.')
+    multiprocessing.set_start_method('spawn')
+    multiprocessing_pool = multiprocessing.Pool(args.cpu_count)
+    print('EvoOpt Experiment >>> multiprocessing pool has been initialized.')
+
     print('EvoOpt Experiment >>> loading dataset for the experiment.')
     (input_shape, num_classes), (x_train, y_train), (x_test, y_test) = datasets.load_dataset(dataset_name=args.dataset)
     print('EvoOpt Experiment >>> dataset has been loaded.')
@@ -53,8 +61,8 @@ if __name__ == '__main__':
     hof, log = evoopt_cnn.run(
         model_name=args.model, input_shape=input_shape, num_classes=num_classes,
         x_train=x_train, y_train=y_train, x_test=x_test, y_test=y_test, tournsize=args.tournsize,
-        batch_size=args.batch_size, epochs=args.epochs, gene_mut_prob=args.gene_mut_prob,
-        pop_size=args.pop_size, cxpb=args.cxpb, mutpb=args.mutpb, ngen=args.ngen)
+        batch_size=args.batch_size, epochs=args.epochs, gene_mut_prob=args.gene_mut_prob, pop_size=args.pop_size,
+        cxpb=args.cxpb, mutpb=args.mutpb, ngen=args.ngen, multiprocessing_pool=multiprocessing_pool)
     print('EvoOpt Experiment >>> evolutionary algorithm has completed successfully.')
 
     print('EvoOpt Experiment >>> saving the results to the folder specified in the arguments.')
@@ -68,5 +76,10 @@ if __name__ == '__main__':
     pickle.dump(hof, file)
     file.close()
     print('EvoOpt Experiment >>> experiment results have been saved to the specified folder.')
+
+    # Remember to close the multiprocessing pool when the experiment is finished
+    print('EvoOpt Experiment >>> closing the multiprocessing pool.')
+    multiprocessing_pool.close()
+    print('EvoOpt Experiment >>> multiprocessing pool closed.')
 
     print('EvoOpt Experiment >>> experiment finished.')

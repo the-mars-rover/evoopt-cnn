@@ -5,7 +5,6 @@ import numpy
 import models
 import tensorflow
 import os
-import multiprocessing
 
 from deap import base
 from deap import creator
@@ -460,14 +459,14 @@ def _register_genetic_operators(gene_mut_prob):
 # ======================================================================================================================
 
 def run(model_name, input_shape, num_classes, x_train, y_train, x_test, y_test, tournsize, batch_size, epochs,
-        gene_mut_prob, pop_size, cxpb, mutpb, ngen):
+        gene_mut_prob, pop_size, cxpb, mutpb, ngen, multiprocessing_pool):
     # Setup the DEAP toolbox
     _register_individual()
     _register_population_initialization()
     _register_selection_method(tournsize)
     _register_evaluate(model_name, input_shape, num_classes, x_train, y_train, x_test, y_test, batch_size, epochs)
     _register_genetic_operators(gene_mut_prob)
-    toolbox.register("map", multiprocessing.Pool().map)
+    toolbox.register("map", multiprocessing_pool.map)
 
     # Setup the hall of fame and stats we want to keep track of
     hof = tools.HallOfFame(10)

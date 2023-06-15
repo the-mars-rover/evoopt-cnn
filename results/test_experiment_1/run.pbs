@@ -14,15 +14,16 @@ module load chpc/python/anaconda/3-2021.11
 source /apps/chpc/chem/anaconda3-2021.11/etc/profile.d/conda.sh
 conda activate evoopt-cnn-env
 cd /mnt/lustre/users/mbornman1/evoopt-cnn
-python3 -m scoop -n 4 experiment.py \
+python3 experiment.py \
  --results_path "/mnt/lustre/users/mbornman1/evoopt-cnn/experiments/test_experiment_1" \
+ --cpu_count 2
  --seed 1 \
  --dataset "fashion_mnist" \
  --pop_size 5 \
  --ngen 5 \
  --model "alexnet" \
  --epochs 10 \
- --batch_size 64 \
+ --batch_size 128 \
  --tournsize 3 \
  --cxpb 0.8 \
  --mutpb 0.2 \
