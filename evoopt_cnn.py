@@ -5,13 +5,13 @@ import numpy
 import models
 import tensorflow
 import os
+import multiprocessing
 
 from deap import base
 from deap import creator
 from deap import tools
 from deap import algorithms
 from tensorflow import keras
-from scoop import futures
 
 # ======================================================================================================================
 # ========================================= INITIAL SETUP ==============================================================
@@ -467,7 +467,7 @@ def run(model_name, input_shape, num_classes, x_train, y_train, x_test, y_test, 
     _register_selection_method(tournsize)
     _register_evaluate(model_name, input_shape, num_classes, x_train, y_train, x_test, y_test, batch_size, epochs)
     _register_genetic_operators(gene_mut_prob)
-    toolbox.register("map", futures.map)
+    toolbox.register("map", multiprocessing.Pool().map)
 
     # Setup the hall of fame and stats we want to keep track of
     hof = tools.HallOfFame(10)
