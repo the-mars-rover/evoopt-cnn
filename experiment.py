@@ -39,32 +39,29 @@ parser.add_argument('--gene_mut_prob', dest='gene_mut_prob', type=float, default
 
 if __name__ == '__main__':
     args = parser.parse_args()
-    logging.basicConfig(filename=args.results_path + '/run.log', encoding='utf-8', level=logging.DEBUG)
-    logging.info('EvoOpt Experiment >>> starting experiment with the arguments logged below.')
+    logging.basicConfig(filename=args.results_path + '/run.log', encoding='utf-8',
+                        level=logging.DEBUG, format='%(asctime)s %(levelname)s: %(message)s')
+    logging.info('Starting experiment with the arguments logged below.')
     logging.info(args)
 
-    logging.info('EvoOpt Experiment >>> setting the random number generator seed for this experiment.')
+    logging.info('Setting the random number generator seed for this experiment.')
     random.seed(args.seed)
-    logging.info('EvoOpt Experiment >>> random seed has been set.')
 
-    logging.info('EvoOpt Experiment >>> initializing the multiprocessing pool.')
+    logging.info('Initializing the multiprocessing pool.')
     multiprocessing.set_start_method('spawn')
     multiprocessing_pool = multiprocessing.Pool(args.cpu_count)
-    logging.info('EvoOpt Experiment >>> multiprocessing pool has been initialized.')
 
-    logging.info('EvoOpt Experiment >>> loading dataset for the experiment.')
+    logging.info('Loading dataset for the experiment.')
     (input_shape, num_classes), (x_train, y_train), (x_test, y_test) = datasets.load_dataset(dataset_name=args.dataset)
-    logging.info('EvoOpt Experiment >>> dataset has been loaded.')
 
-    logging.info("EvoOpt Experiment >>> running the evolutionary algorithm with the given hyper-parameters. This may take a while. Statistics for every generation will be printed below.")
+    logging.info("Running the evolutionary algorithm with the given hyper-parameters. This may take a while. Statistics for every generation will be printed below.")
     hof, log = evoopt_cnn.run(
         model_name=args.model, input_shape=input_shape, num_classes=num_classes,
         x_train=x_train, y_train=y_train, x_test=x_test, y_test=y_test, tournsize=args.tournsize,
         batch_size=args.batch_size, epochs=args.epochs, gene_mut_prob=args.gene_mut_prob, pop_size=args.pop_size,
         cxpb=args.cxpb, mutpb=args.mutpb, ngen=args.ngen, multiprocessing_pool=multiprocessing_pool)
-    logging.info('EvoOpt Experiment >>> evolutionary algorithm has completed successfully.')
 
-    logging.info('EvoOpt Experiment >>> saving the results to the folder specified in the arguments.')
+    logging.info('Saving the results to the folder specified in the arguments.')
     file = open(args.results_path + '/hof.pkl', 'wb')
     pickle.dump(args, file)
     file.close()
@@ -74,11 +71,9 @@ if __name__ == '__main__':
     file = open(args.results_path + '/hof.pkl', 'wb')
     pickle.dump(hof, file)
     file.close()
-    logging.info('EvoOpt Experiment >>> experiment results have been saved to the specified folder.')
 
     # Remember to close the multiprocessing pool when the experiment is finished
-    logging.info('EvoOpt Experiment >>> closing the multiprocessing pool.')
+    logging.info('Closing the multiprocessing pool.')
     multiprocessing_pool.close()
-    logging.info('EvoOpt Experiment >>> multiprocessing pool closed.')
 
-    logging.info('EvoOpt Experiment >>> experiment finished.')
+    logging.info('Experiment finished.')
