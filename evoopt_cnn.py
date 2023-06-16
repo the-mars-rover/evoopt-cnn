@@ -5,6 +5,7 @@ import numpy
 import models
 import tensorflow
 import os
+import logging
 
 from deap import base
 from deap import creator
@@ -24,7 +25,7 @@ if gpus:
         for gpu in gpus:
             tensorflow.config.experimental.set_memory_growth(gpu, True)
     except RuntimeError as e:
-        print(e)
+        logging.error(e)
 
 # Create a MirroredStrategy for tensorflow
 strategy = tensorflow.distribute.MirroredStrategy(cross_device_ops=tensorflow.distribute.ReductionToOneDevice())
@@ -65,7 +66,7 @@ _possible_beta_values = [0.0, 0.1, 1.0, 10.0]
 
 # Public utility method to print an individual.
 def print_individual(individual):
-    print('[Base=' + individual[0]
+    logging.info('[Base=' + individual[0]
           + ', learning_rate=' + str(individual[1])
           + ', momentum=' + str(individual[2])
           + ' ,nesterov=' + str(individual[3])
