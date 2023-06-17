@@ -402,7 +402,6 @@ def _register_population_initialization():
 # ======================================================================================================================
 
 def _evaluate(individual, model_name, input_shape, num_classes, x_train, y_train, x_test, y_test, batch_size, epochs):
-    logging.info("Evaluating the fitness of the following individual: %s.", individual_string(individual))
 
     # Open a strategy scope. Everything that creates variables should be under the strategy scope.
     # In general this is only model construction & `compile()`.
@@ -419,7 +418,6 @@ def _evaluate(individual, model_name, input_shape, num_classes, x_train, y_train
     # Return the accuracy of the model as the fitness
     score = model.evaluate(x_test, y_test, verbose=1)
 
-    logging.info("Evaluation accuracy of %s for the following individual %s.", score[1], individual_string(individual))
     return [score[1]]
 
 
@@ -444,8 +442,6 @@ def _register_selection_method(tournsize):
 # ======================================================================================================================
 
 def _mutate_optimizer(individual, gene_mut_prob):
-    logging.info('Mutating the following individual: %s.', individual_string(individual))
-
     r = random.uniform(0, 1)
     if r < gene_mut_prob:
         individual[0] = random.choice(_possible_base_values)
@@ -538,8 +534,6 @@ def _mutate_optimizer(individual, gene_mut_prob):
     if r < gene_mut_prob:
         individual[22] = random.choice(_possible_beta_values)
 
-    logging.info('Individual has been mutated to: %s.',
-                 individual_string(individual))
     return [individual]
 
 
@@ -563,7 +557,7 @@ def eaSimple(population, toolbox, cxpb, mutpb, ngen, stats=None,
     # Evaluate the individuals with an invalid fitness
     logging.info('Evaluating fitness for the initial generation of individuals.')
     invalid_ind = [ind for ind in population if not ind.fitness.valid]
-    logging.info('Will evaluate fitnesses for the these %s individuals.', len(invalid_ind))
+    logging.info('Will evaluate fitness for %s individuals.', len(invalid_ind))
     fitnesses = toolbox.map(toolbox.evaluate, invalid_ind)
     for ind, fit in zip(invalid_ind, fitnesses):
         ind.fitness.values = fit
@@ -578,14 +572,15 @@ def eaSimple(population, toolbox, cxpb, mutpb, ngen, stats=None,
 
     # Begin the generational process
     for gen in range(1, ngen + 1):
-        logging.info('Applying selection operators to select the next generation of individuals.')
+        logging.info('Applying selection operators for generation %s.', gen + 1)
         offspring = toolbox.select(population, len(population))
 
-        logging.info('Applying genetic operators to the next generation of individuals.')
+        logging.info('Applying genetic operators for generation %s.', gen + 1)
         offspring = algorithms.varAnd(offspring, toolbox, cxpb, mutpb)
 
-        logging.info('Evaluating fitness for the next generation of individuals.')
+        logging.info('Evaluating fitness for for generation %s.', gen + 1)
         invalid_ind = [ind for ind in offspring if not ind.fitness.valid]
+        logging.info('Will evaluate fitness for %s individuals.', len(invalid_ind))
         fitnesses = toolbox.map(toolbox.evaluate, invalid_ind)
         for ind, fit in zip(invalid_ind, fitnesses):
             ind.fitness.values = fit
