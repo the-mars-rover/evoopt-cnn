@@ -407,21 +407,16 @@ def _evaluate(individual, model_name, input_shape, num_classes, x_train, y_train
     # Open a strategy scope. Everything that creates variables should be under the strategy scope.
     # In general this is only model construction & `compile()`.
     with strategy.scope():
-        logging.info("Getting the optimizer for the following individual %s.", individual_string(individual))
         optimizer = get_optimizer(individual)
 
-        logging.info("Getting the keras model for the following individual %s.", individual_string(individual))
         model = models.get_model(model_name, input_shape, num_classes)
 
-        logging.info("Compiling the keras model for the following individual %s.", individual_string(individual))
         model.compile(loss="categorical_crossentropy", optimizer=optimizer, metrics=["accuracy"])
 
     # Train the model
-    logging.info("Training the keras model for the following individual %s.", individual_string(individual))
     model.fit(x_train, y_train, batch_size=batch_size, epochs=epochs, validation_split=0.1, verbose=1)
 
     # Return the accuracy of the model as the fitness
-    logging.info("Evaluating the keras model for the following individual %s.", individual_string(individual))
     score = model.evaluate(x_test, y_test, verbose=1)
 
     logging.info("Evaluation accuracy of %s for the following individual %s.", score[1], individual_string(individual))
@@ -453,141 +448,98 @@ def _mutate_optimizer(individual, gene_mut_prob):
 
     r = random.uniform(0, 1)
     if r < gene_mut_prob:
-        logging.info('Mutating the `base` gene for following individual: %s.', individual_string(individual))
         individual[0] = random.choice(_possible_base_values)
 
     r = random.uniform(0, 1)
     if r < gene_mut_prob:
-        logging.info('Mutating the `learning_rate` gene for following individual: %s.',
-                     individual_string(individual))
         individual[1] = random.choice(_possible_learning_rate_values)
 
     r = random.uniform(0, 1)
     if r < gene_mut_prob:
-        logging.info('Mutating the `momentum` gene for following individual: %s.',
-                     individual_string(individual))
         individual[2] = random.choice(_possible_momentum_values)
 
     r = random.uniform(0, 1)
     if r < gene_mut_prob:
-        logging.info('Mutating the `nesterov` gene for following individual: %s.',
-                     individual_string(individual))
         individual[3] = random.choice(_possible_nesterov_values)
 
     r = random.uniform(0, 1)
     if r < gene_mut_prob:
-        logging.info('Mutating the `amsgrad` gene for following individual: %s.',
-                     individual_string(individual))
         individual[4] = random.choice(_possible_amsgrad_values)
 
     r = random.uniform(0, 1)
     if r < gene_mut_prob:
-        logging.info('Mutating the `weight_decay` gene for following individual: %s.',
-                     individual_string(individual))
         individual[5] = random.choice(_possible_weight_decay_values)
 
     r = random.uniform(0, 1)
     if r < gene_mut_prob:
-        logging.info('Mutating the `clipnorm` gene for following individual: %s.',
-                     individual_string(individual))
         individual[6] = random.choice(_possible_clipnorm_values)
 
     r = random.uniform(0, 1)
     if r < gene_mut_prob:
-        logging.info('Mutating the `clipvalue` gene for following individual: %s.',
-                     individual_string(individual))
         individual[7] = random.choice(_possible_clipvalue_values)
 
     r = random.uniform(0, 1)
     if r < gene_mut_prob:
-        logging.info('Mutating the `global_clipnorm` gene for following individual: %s.',
-                     individual_string(individual))
         individual[8] = random.choice(_possible_global_clipnorm_values)
 
     r = random.uniform(0, 1)
     if r < gene_mut_prob:
-        logging.info('Mutating the `use_ema` gene for following individual: %s.',
-                     individual_string(individual))
         individual[9] = random.choice(_possible_use_ema_values)
 
     r = random.uniform(0, 1)
     if r < gene_mut_prob:
-        logging.info('Mutating the `ema_momentum` gene for following individual: %s.',
-                     individual_string(individual))
         individual[10] = random.choice(_possible_ema_momentum_values)
 
     r = random.uniform(0, 1)
     if r < gene_mut_prob:
-        logging.info('Mutating the `ema_overwrite_frequency` gene for following individual: %s.',
-                     individual_string(individual))
         individual[11] = random.choice(_possible_ema_overwrite_frequency_values)
 
     r = random.uniform(0, 1)
     if r < gene_mut_prob:
-        logging.info('Mutating the `rho` gene for following individual: %s.',
-                     individual_string(individual))
         individual[12] = random.choice(_possible_rho_values)
 
     r = random.uniform(0, 1)
     if r < gene_mut_prob:
-        logging.info('Mutating the `epsilon` gene for following individual: %s.',
-                     individual_string(individual))
         individual[13] = random.choice(_possible_epsilon_values)
 
     r = random.uniform(0, 1)
     if r < gene_mut_prob:
-        logging.info('Mutating the `centered` gene for following individual: %s.',
-                     individual_string(individual))
         individual[14] = random.choice(_possible_centered_values)
 
     r = random.uniform(0, 1)
     if r < gene_mut_prob:
-        logging.info('Mutating the `beta_1` gene for following individual: %s.',
-                     individual_string(individual))
         individual[15] = random.choice(_possible_beta_1_values)
 
     r = random.uniform(0, 1)
     if r < gene_mut_prob:
-        logging.info('Mutating the `beta_2` gene for following individual: %s.',
-                     individual_string(individual))
         individual[16] = random.choice(_possible_beta_2_values)
 
     r = random.uniform(0, 1)
     if r < gene_mut_prob:
-        logging.info('Mutating the `learning_rate_power` gene for following individual: %s.',
-                     individual_string(individual))
         individual[17] = random.choice(_possible_learning_rate_power_values)
 
     r = random.uniform(0, 1)
     if r < gene_mut_prob:
-        logging.info('Mutating the `initial_accumulator_value` gene for following individual: %s.',
-                     individual_string(individual))
         individual[18] = random.choice(_possible_initial_accumulator_value_values)
 
     r = random.uniform(0, 1)
     if r < gene_mut_prob:
-        logging.info('Mutating the `l1_regularization_strength` gene for following individual: %s.',
-                     individual_string(individual))
         individual[19] = random.choice(_possible_l1_regularization_strength_values)
 
     r = random.uniform(0, 1)
     if r < gene_mut_prob:
-        logging.info('Mutating the `l2_regularization_strength` gene for following individual: %s.',
-                     individual_string(individual))
         individual[20] = random.choice(_possible_l2_regularization_strength_values)
 
     r = random.uniform(0, 1)
     if r < gene_mut_prob:
-        logging.info('Mutating the `l2_shrinkage_regularization_strength` gene for following individual: %s.',
-                     individual_string(individual))
         individual[21] = random.choice(_possible_l2_shrinkage_regularization_strength_values)
 
     r = random.uniform(0, 1)
     if r < gene_mut_prob:
-        logging.info('Mutating the `beta` gene for following individual: %s.',
-                     individual_string(individual))
         individual[22] = random.choice(_possible_beta_values)
 
+    logging.info('Individual has been mutated to: %s.',
+                 individual_string(individual))
     return [individual]
 
 
@@ -599,6 +551,63 @@ def _register_genetic_operators(gene_mut_prob):
 
 # ======================================================================================================================
 # ========================================= EVOLUTIONARY ALGORITHM =====================================================
+# ======================================================================================================================
+
+def eaSimple(population, toolbox, cxpb, mutpb, ngen, stats=None,
+             halloffame=None, verbose=__debug__):
+    """The following Evolutionary algorithm is actually taken from the DEAP library. We just have our own implementation
+    to add additional logging. See https://deap.readthedocs.io/en/master/api/algo.html#deap.algorithms.eaSimple."""
+    logbook = tools.Logbook()
+    logbook.header = ['gen', 'nevals'] + (stats.fields if stats else [])
+
+    # Evaluate the individuals with an invalid fitness
+    logging.info('Evaluating fitness for the initial generation of individuals.')
+    invalid_ind = [ind for ind in population if not ind.fitness.valid]
+    logging.info('Will evaluate fitnesses for the these %s individuals.', len(invalid_ind))
+    fitnesses = toolbox.map(toolbox.evaluate, invalid_ind)
+    for ind, fit in zip(invalid_ind, fitnesses):
+        ind.fitness.values = fit
+
+    if halloffame is not None:
+        halloffame.update(population)
+
+    record = stats.compile(population) if stats else {}
+    logbook.record(gen=0, nevals=len(invalid_ind), **record)
+    if verbose:
+        print(logbook.stream)
+
+    # Begin the generational process
+    for gen in range(1, ngen + 1):
+        logging.info('Applying selection operators to select the next generation of individuals.')
+        offspring = toolbox.select(population, len(population))
+
+        logging.info('Applying genetic operators to the next generation of individuals.')
+        offspring = algorithms.varAnd(offspring, toolbox, cxpb, mutpb)
+
+        logging.info('Evaluating fitness for the next generation of individuals.')
+        invalid_ind = [ind for ind in offspring if not ind.fitness.valid]
+        fitnesses = toolbox.map(toolbox.evaluate, invalid_ind)
+        for ind, fit in zip(invalid_ind, fitnesses):
+            ind.fitness.values = fit
+
+        # Update the hall of fame with the generated individuals
+        if halloffame is not None:
+            halloffame.update(offspring)
+
+        # Replace the current population by the offspring
+        population[:] = offspring
+
+        # Append the current generation statistics to the logbook
+        record = stats.compile(population) if stats else {}
+        logbook.record(gen=gen, nevals=len(invalid_ind), **record)
+        if verbose:
+            print(logbook.stream)
+
+    return population, logbook
+
+
+# ======================================================================================================================
+# ========================================= RUN ALGORITHM ==============================================================
 # ======================================================================================================================
 
 def run(model_name, input_shape, num_classes, x_train, y_train, x_test, y_test, tournsize, batch_size, epochs,
@@ -623,7 +632,7 @@ def run(model_name, input_shape, num_classes, x_train, y_train, x_test, y_test, 
     pop = toolbox.population(n=pop_size)
 
     logging.info('Running the evolutionary algorithm.')
-    pop, log = algorithms.eaSimple(pop, toolbox, cxpb=cxpb, mutpb=mutpb, ngen=ngen,
+    pop, log = eaSimple(pop, toolbox, cxpb=cxpb, mutpb=mutpb, ngen=ngen,
                                    stats=stats, halloffame=hof, verbose=True)
 
     # Return the hall of fame and results
