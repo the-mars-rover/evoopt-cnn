@@ -3,7 +3,7 @@
 #PBS -N fashionmnist_pop100_gen100_alexnet_tou20_cxp50_mut20_gmp50_alexnet_epo10_bat128_sed1
 #PBS -l select=1:ncpus=9:ngpus=3
 #PBS -l walltime=12:00:00
-#PBS -q gpu_2
+#PBS -q gpu_3
 #PBS -m abe
 #PBS -M u15024522@tuks.co.za
 #PBS -o /mnt/lustre/users/mbornman1/evoopt-cnn/experiments/fashionmnist_pop100_gen100_alexnet_tou20_cxp50_mut20_gmp50_alexnet_epo10_bat128_sed1/job.out
