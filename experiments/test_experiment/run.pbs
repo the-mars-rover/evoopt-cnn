@@ -1,13 +1,13 @@
 #!/bin/bash
 #PBS -P CSCI0806
-#PBS -N test_experiment_1
+#PBS -N test_experiment
 #PBS -l select=1:ncpus=4:ngpus=1
 #PBS -l walltime=00:30:00
 #PBS -q gpu_1
 #PBS -m abe
 #PBS -M u15024522@tuks.co.za
-#PBS -o /mnt/lustre/users/mbornman1/evoopt-cnn/experiments/test_experiment_1/1.out
-#PBS -e /mnt/lustre/users/mbornman1/evoopt-cnn/experiments/test_experiment_1/1.err
+#PBS -o /mnt/lustre/users/mbornman1/evoopt-cnn/experiments/test_experiment/1.out
+#PBS -e /mnt/lustre/users/mbornman1/evoopt-cnn/experiments/test_experiment/1.err
 #PBS
 module purge
 module load chpc/python/anaconda/3-2021.11
@@ -15,7 +15,7 @@ source /apps/chpc/chem/anaconda3-2021.11/etc/profile.d/conda.sh
 conda activate evoopt-cnn-env
 cd /mnt/lustre/users/mbornman1/evoopt-cnn
 python3 experiment.py \
- --results_path "/mnt/lustre/users/mbornman1/evoopt-cnn/experiments/test_experiment_1" \
+ --results_path "/mnt/lustre/users/mbornman1/evoopt-cnn/experiments/test_experiment" \
  --cpu_count 3 \
  --seed 1 \
  --dataset "fashion_mnist" \

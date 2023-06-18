@@ -1,0 +1,30 @@
+#!/bin/bash
+#PBS -P CSCI0806
+#PBS -N fashionmnist_pop20_gen40_alexnet_tou5_cxp50_mut20_gmp50_alexnet_epo10_bat128_sed1
+#PBS -l select=1:ncpus=3:ngpus=1
+#PBS -l walltime=12:00:00
+#PBS -q gpu_1
+#PBS -m abe
+#PBS -M u15024522@tuks.co.za
+#PBS -o /mnt/lustre/users/mbornman1/evoopt-cnn/experiments/fashionmnist_pop20_gen40_alexnet_tou5_cxp50_mut20_gmp50_alexnet_epo10_bat128_sed1/job.out
+#PBS -e /mnt/lustre/users/mbornman1/evoopt-cnn/experiments/fashionmnist_pop20_gen40_alexnet_tou5_cxp50_mut20_gmp50_alexnet_epo10_bat128_sed1/job.err
+#PBS
+module purge
+module load chpc/python/anaconda/3-2021.11
+source /apps/chpc/chem/anaconda3-2021.11/etc/profile.d/conda.sh
+conda activate evoopt-cnn-env
+cd /mnt/lustre/users/mbornman1/evoopt-cnn
+python3 experiment.py \
+ --results_path "/mnt/lustre/users/mbornman1/evoopt-cnn/experiments/fashionmnist_pop20_gen40_alexnet_tou5_cxp50_mut20_gmp50_alexnet_epo10_bat128_sed1" \
+ --cpu_count 3 \
+ --dataset "fashion_mnist" \
+ --seed 1 \
+ --pop_size 20 \
+ --ngen 40 \
+ --tournsize 5 \
+ --cxpb 0.5 \
+ --mutpb 0.2 \
+ --gene_mut_prob 0.5 \
+ --model "alexnet" \
+ --epochs 10 \
+ --batch_size 128
