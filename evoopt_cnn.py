@@ -572,13 +572,13 @@ def eaSimple(population, toolbox, cxpb, mutpb, ngen, stats=None,
 
     # Begin the generational process
     for gen in range(1, ngen + 1):
-        logging.info('Applying selection operators for generation %s.', gen + 1)
+        logging.info('Applying selection operators for generation %s.', gen)
         offspring = toolbox.select(population, len(population))
 
-        logging.info('Applying genetic operators for generation %s.', gen + 1)
+        logging.info('Applying genetic operators for generation %s.', gen)
         offspring = algorithms.varAnd(offspring, toolbox, cxpb, mutpb)
 
-        logging.info('Evaluating fitness for for generation %s.', gen + 1)
+        logging.info('Evaluating fitness for for generation %s.', gen)
         invalid_ind = [ind for ind in offspring if not ind.fitness.valid]
         logging.info('Will evaluate fitness for %s individuals.', len(invalid_ind))
         fitnesses = toolbox.map(toolbox.evaluate, invalid_ind)

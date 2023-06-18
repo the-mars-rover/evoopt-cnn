@@ -62,9 +62,6 @@ if __name__ == '__main__':
         cxpb=args.cxpb, mutpb=args.mutpb, ngen=args.ngen, multiprocessing_pool=multiprocessing_pool)
 
     logging.info('Saving the results to the folder specified in the arguments.')
-    file = open(args.results_path + '/hof.pkl', 'wb')
-    pickle.dump(args, file)
-    file.close()
     file = open(args.results_path + '/log.pkl', 'wb')
     pickle.dump(log, file)
     file.close()
