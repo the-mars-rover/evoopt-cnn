@@ -42,96 +42,134 @@ creator.create("Individual", list, fitness=creator.FitnessMax)
 
 def _base():
     return random.choice(['SGD', 'RMSprop', 'Adagrad', 'Adadelta', 'Adam', 'Adamax', 'Nadam', 'Ftrl'])
+
+
 _base_index = 0
 
 
 def _learning_rate():
     return random.choice(numpy.logspace(-5, 0, num=1000))
+
+
 _learning_rate_index = 1
 
 
 def _momentum():
     return random.choice([0, random.choice(numpy.linspace(0, 0.9, num=1000))])
+
+
 _momentum_index = 2
 
 
 def _nesterov():
     return random.choice([True, False])
+
+
 _nesterov_index = 3
 
 
 def _amsgrad():
     return random.choice([True, False])
+
+
 _amsgrad_index = 4
 
 
 def _weight_decay():
     return random.choice([None, random.choice(numpy.logspace(-4, -2, num=1000))])
+
+
 _weight_decay_index = 5
 
 
 def _use_ema():
     return random.choice([True, False])
+
+
 _use_ema_index = 6
 
 
 def _ema_momentum():
     return random.choice(numpy.linspace(0.9, 0.9999, num=1000))
+
+
 _ema_momentum_index = 7
 
 
 def _rho():
     return random.choice(numpy.linspace(0.85, 0.99, num=1000))
+
+
 _rho_index = 8
 
 
 def _epsilon():
     return random.choice(numpy.logspace(-10, -4, num=1000))
+
+
 _epsilon_index = 9
 
 
 def _centered():
     return random.choice([True, False])
+
+
 _centered_index = 10
 
 
 def _beta_1():
     return random.choice(numpy.linspace(0.8, 0.999, num=1000))
+
+
 _beta_1_index = 11
 
 
 def _beta_2():
     return random.choice(numpy.linspace(0.9, 0.9999, num=1000))
+
+
 _beta_2_index = 12
 
 
 def _learning_rate_power():
     return random.choice(numpy.linspace(-1, 0, 1000))
+
+
 _learning_rate_power_index = 13
 
 
 def _initial_accumulator_value():
     return random.choice(numpy.linspace(0.01, 1.0, 1000))
+
+
 _initial_accumulator_value_index = 14
 
 
 def _l1_regularization_strength():
     return random.choice(numpy.linspace(0.0, 0.1, 1000))
+
+
 _l1_regularization_strength_index = 15
 
 
 def _l2_regularization_strength():
     return random.choice(numpy.linspace(0.0, 0.1, 1000))
+
+
 _l2_regularization_strength_index = 16
 
 
 def _l2_shrinkage_regularization_strength():
     return random.choice(numpy.linspace(0.0, 0.1, 1000))
+
+
 _l2_shrinkage_regularization_strength_index = 17
 
 
 def _beta():
     return random.choice(numpy.linspace(0.0, 1.0, 1000))
+
+
 _beta_index = 18
 
 
