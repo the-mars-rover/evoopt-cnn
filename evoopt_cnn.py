@@ -362,7 +362,7 @@ def _register_individual():
         toolbox.l1_regularization_strength,
         toolbox.l2_regularization_strength,
         toolbox.l2_shrinkage_regularization_strength,
-        toolbox.beta,
+        toolbox.beta
     ), n=1)
 
 
