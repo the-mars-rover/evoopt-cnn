@@ -337,7 +337,7 @@ def _register_individual():
     toolbox.register("l2_regularization_strength", _l2_regularization_strength)
 
     # A float value, must be greater than or equal to zero. This differs from L2 above in that the L2 above is a stabilization penalty, whereas this L2 shrinkage is a magnitude penalty. When input is sparse shrinkage will only happen on the active weights. Applicable to Ftrl'
-    toolbox.register("l2_shrinkage_regularization_strength", random.choice, _l2_shrinkage_regularization_strength)
+    toolbox.register("l2_shrinkage_regularization_strength", _l2_shrinkage_regularization_strength)
 
     # A float value,  representing the beta value from the paper. Defaults to 0.0. Applicable to Ftrl'
     toolbox.register("beta", _beta)
