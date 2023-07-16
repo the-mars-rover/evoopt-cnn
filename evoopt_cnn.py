@@ -39,56 +39,123 @@ creator.create("Individual", list, fitness=creator.FitnessMax)
 # ========================================= CHROMOSOME REPRESENTATION ==================================================
 # ======================================================================================================================
 
-_possible_base_values = ['SGD', 'RMSprop', 'Adagrad', 'Adadelta', 'Adam', 'Adamax', 'Nadam', 'Ftrl']
-_possible_learning_rate_values = [0.1, 0.01, 0.001, 0.0001]
-_possible_momentum_values = [0, 0.5, 0.9, 0.99]
-_possible_nesterov_values = [True, False]
-_possible_amsgrad_values = [True, False]
-_possible_weight_decay_values = [None, 0.0001, 0.001, 0.01]
-_possible_clipnorm_values = [None, 1, 5, 10]
-_possible_clipvalue_values = [None, 0.1, 0.5, 1]
-_possible_global_clipnorm_values = [None, 1, 5, 10]
-_possible_use_ema_values = [True, False]
-_possible_ema_momentum_values = [0.9, 0.99, 0.999]
-_possible_ema_overwrite_frequency_values = [1, 5, 10, 20]
-_possible_rho_values = [0.9, 0.95, 0.99]
-_possible_epsilon_values = [1e-8, 1e-7, 1e-6]
-_possible_centered_values = [True, False]
-_possible_beta_1_values = [0.9, 0.95, 0.99]
-_possible_beta_2_values = [0.999, 0.9999, 0.99999]
-_possible_learning_rate_power_values = [0.0, -0.5, -1.0]
-_possible_initial_accumulator_value_values = [0.0, 0.1, 1.0, 10.0]
-_possible_l1_regularization_strength_values = [0.0, 0.0001, 0.001, 0.01]
-_possible_l2_regularization_strength_values = [0.0, 0.1, 0.01, 0.001, 0.0001]
-_possible_l2_shrinkage_regularization_strength_values = [0.0, 0.0001, 0.001, 0.01]
-_possible_beta_values = [0.0, 0.1, 1.0, 10.0]
+
+def _base():
+    return random.choice(['SGD', 'RMSprop', 'Adagrad', 'Adadelta', 'Adam', 'Adamax', 'Nadam', 'Ftrl'])
+_base_index = 0
+
+
+def _learning_rate():
+    return random.choice(numpy.logspace(-5, 0, num=1000))
+_learning_rate_index = 1
+
+
+def _momentum():
+    return random.choice([0, random.choice(numpy.linspace(0, 0.9, num=1000))])
+_momentum_index = 2
+
+
+def _nesterov():
+    return random.choice([True, False])
+_nesterov_index = 3
+
+
+def _amsgrad():
+    return random.choice([True, False])
+_amsgrad_index = 4
+
+
+def _weight_decay():
+    return random.choice([None, random.choice(numpy.logspace(-4, -2, num=1000))])
+_weight_decay_index = 5
+
+
+def _use_ema():
+    return random.choice([True, False])
+_use_ema_index = 6
+
+
+def _ema_momentum():
+    return random.choice(numpy.linspace(0.9, 0.9999, num=1000))
+_ema_momentum_index = 7
+
+
+def _rho():
+    return random.choice(numpy.linspace(0.85, 0.99, num=1000))
+_rho_index = 8
+
+
+def _epsilon():
+    return random.choice(numpy.logspace(-10, -4, num=1000))
+_epsilon_index = 9
+
+
+def _centered():
+    return random.choice([True, False])
+_centered_index = 10
+
+
+def _beta_1():
+    return random.choice(numpy.linspace(0.8, 0.999, num=1000))
+_beta_1_index = 11
+
+
+def _beta_2():
+    return random.choice(numpy.linspace(0.9, 0.9999, num=1000))
+_beta_2_index = 12
+
+
+def _learning_rate_power():
+    return random.choice(numpy.linspace(-1, 0, 1000))
+_learning_rate_power_index = 13
+
+
+def _initial_accumulator_value():
+    return random.choice(numpy.linspace(0.01, 1.0, 1000))
+_initial_accumulator_value_index = 14
+
+
+def _l1_regularization_strength():
+    return random.choice(numpy.linspace(0.0, 0.1, 1000))
+_l1_regularization_strength_index = 15
+
+
+def _l2_regularization_strength():
+    return random.choice(numpy.linspace(0.0, 0.1, 1000))
+_l2_regularization_strength_index = 16
+
+
+def _l2_shrinkage_regularization_strength():
+    return random.choice(numpy.linspace(0.0, 0.1, 1000))
+_l2_shrinkage_regularization_strength_index = 17
+
+
+def _beta():
+    return random.choice(numpy.linspace(0.0, 1.0, 1000))
+_beta_index = 18
 
 
 # Public utility method to print an individual.
 def individual_string(individual):
-    return '[Base=' + individual[0] \
-        + ', learning_rate=' + str(individual[1]) \
-        + ', momentum=' + str(individual[2]) \
-        + ' ,nesterov=' + str(individual[3]) \
-        + ' ,amsgrad=' + str(individual[4]) \
-        + ' ,weight_decay=' + str(individual[5]) \
-        + ' ,clipnorm=' + str(individual[6]) \
-        + ' ,clipvalue=' + str(individual[7]) \
-        + ' ,global_clipnorm=' + str(individual[8]) \
-        + ' ,use_ema=' + str(individual[9]) \
-        + ' ,ema_momentum=' + str(individual[10]) \
-        + ' ,ema_overwrite_frequency=' + str(individual[11]) \
-        + ' ,rho=' + str(individual[12]) \
-        + ' ,epsilon=' + str(individual[13]) \
-        + ' ,centered=' + str(individual[14]) \
-        + ' ,beta_1=' + str(individual[15]) \
-        + ' ,beta_2=' + str(individual[16]) \
-        + ' ,learning_rate_power=' + str(individual[17]) \
-        + ' ,initial_accumulator_value=' + str(individual[18]) \
-        + ' ,l1_regularization_strength=' + str(individual[19]) \
-        + ' ,l2_regularization_strength=' + str(individual[20]) \
-        + ' ,l2_shrinkage_regularization_strength=' + str(individual[21]) \
-        + ' ,beta=' + str(individual[22]) + ']'
+    return '[Base=' + individual[_base_index] \
+        + ', learning_rate=' + str(individual[_learning_rate_index]) \
+        + ', momentum=' + str(individual[_momentum_index]) \
+        + ' ,nesterov=' + str(individual[_nesterov_index]) \
+        + ' ,amsgrad=' + str(individual[_amsgrad_index]) \
+        + ' ,weight_decay=' + str(individual[_weight_decay_index]) \
+        + ' ,use_ema=' + str(individual[_use_ema_index]) \
+        + ' ,ema_momentum=' + str(individual[_ema_momentum_index]) \
+        + ' ,rho=' + str(individual[_rho_index]) \
+        + ' ,epsilon=' + str(individual[_epsilon_index]) \
+        + ' ,centered=' + str(individual[_centered_index]) \
+        + ' ,beta_1=' + str(individual[_beta_1_index]) \
+        + ' ,beta_2=' + str(individual[_beta_2_index]) \
+        + ' ,learning_rate_power=' + str(individual[_learning_rate_power_index]) \
+        + ' ,initial_accumulator_value=' + str(individual[_initial_accumulator_value_index]) \
+        + ' ,l1_regularization_strength=' + str(individual[_l1_regularization_strength_index]) \
+        + ' ,l2_regularization_strength=' + str(individual[_l2_regularization_strength_index]) \
+        + ' ,l2_shrinkage_regularization_strength=' + str(individual[_l2_shrinkage_regularization_strength_index]) \
+        + ' ,beta=' + str(individual[_beta_index]) + ']'
 
 
 # The method to get the NN Optimizer given an individual. We make this function public since we may later want to get
@@ -96,295 +163,168 @@ def individual_string(individual):
 def get_optimizer(individual) -> keras.optimizers.Optimizer:
     logging.info('Building the Keras optimizer to use for %s.', individual_string(individual))
 
-    # Only one of clipnorm, clipvalue, or global_clipnorm can have a value.
-    if individual[6] is not None:
-        logging.info('Since `clipnorm` is present, `clipvalue` and `global_clipnorm` are being set to `None`.')
-        individual[7] = None
-        individual[8] = None
-    if individual[7] is not None:
-        logging.info('Since `clipvalue` is present, `global_clipnorm` is being set to `None`.')
-        individual[8] = None
-
-    if individual[0] == "SGD":
+    if individual[_base_index] == "SGD":
         logging.info('Building SGD optimizer to use for %s.', individual_string(individual))
-        return keras.optimizers.SGD(learning_rate=individual[1],
-                                    momentum=individual[2],
-                                    nesterov=individual[3],
-                                    weight_decay=individual[5],
-                                    clipnorm=individual[6],
-                                    clipvalue=individual[7],
-                                    global_clipnorm=individual[8],
-                                    use_ema=individual[9],
-                                    ema_momentum=individual[10],
-                                    ema_overwrite_frequency=individual[11])
+        return keras.optimizers.SGD(learning_rate=individual[_learning_rate_index],
+                                    momentum=individual[_momentum_index],
+                                    nesterov=individual[_nesterov_index],
+                                    weight_decay=individual[_weight_decay_index],
+                                    use_ema=individual[_use_ema_index],
+                                    ema_momentum=individual[_ema_momentum_index])
 
-    if individual[0] == "RMSprop":
+    if individual[_base_index] == "RMSprop":
         logging.info('Building RMSprop optimizer to use for %s.', individual_string(individual))
-        return keras.optimizers.RMSprop(learning_rate=individual[1],
-                                        rho=individual[12],
-                                        momentum=individual[2],
-                                        epsilon=individual[13],
-                                        centered=individual[14],
-                                        weight_decay=individual[5],
-                                        clipnorm=individual[6],
-                                        clipvalue=individual[7],
-                                        global_clipnorm=individual[8],
-                                        use_ema=individual[9],
-                                        ema_momentum=individual[10],
-                                        ema_overwrite_frequency=individual[11])
+        return keras.optimizers.RMSprop(learning_rate=individual[_learning_rate_index],
+                                        rho=individual[_rho_index],
+                                        momentum=individual[_momentum_index],
+                                        epsilon=individual[_epsilon_index],
+                                        centered=individual[_centered_index],
+                                        weight_decay=individual[_weight_decay_index],
+                                        use_ema=individual[_use_ema_index],
+                                        ema_momentum=individual[_ema_momentum_index])
 
-    if individual[0] == "Nadam":
+    if individual[_base_index] == "Nadam":
         logging.info('Building Nadam optimizer to use for %s.', individual_string(individual))
-        return keras.optimizers.Nadam(learning_rate=individual[1],
-                                      beta_1=individual[15],
-                                      beta_2=individual[16],
-                                      epsilon=individual[13],
-                                      weight_decay=individual[5],
-                                      clipnorm=individual[6],
-                                      clipvalue=individual[7],
-                                      global_clipnorm=individual[8],
-                                      use_ema=individual[9],
-                                      ema_momentum=individual[10],
-                                      ema_overwrite_frequency=individual[11])
-    if individual[0] == "Ftrl":
+        return keras.optimizers.Nadam(learning_rate=individual[_learning_rate_index],
+                                      beta_1=individual[_beta_1_index],
+                                      beta_2=individual[_beta_2_index],
+                                      epsilon=individual[_epsilon_index],
+                                      weight_decay=individual[_weight_decay_index],
+                                      use_ema=individual[_use_ema_index],
+                                      ema_momentum=individual[_ema_momentum_index])
+    if individual[_base_index] == "Ftrl":
         logging.info('Building Ftrl optimizer to use for %s.', individual_string(individual))
-        return keras.optimizers.Ftrl(learning_rate=individual[1],
-                                     learning_rate_power=individual[17],
-                                     initial_accumulator_value=individual[18],
-                                     l1_regularization_strength=individual[19],
-                                     l2_regularization_strength=individual[20],
-                                     l2_shrinkage_regularization_strength=individual[21],
-                                     beta=individual[22],
-                                     weight_decay=individual[5],
-                                     clipnorm=individual[6],
-                                     clipvalue=individual[7],
-                                     global_clipnorm=individual[8],
-                                     use_ema=individual[9],
-                                     ema_momentum=individual[10],
-                                     ema_overwrite_frequency=individual[11])
-    if individual[0] == "Adamax":
+        return keras.optimizers.Ftrl(learning_rate=individual[_learning_rate_index],
+                                     learning_rate_power=individual[_learning_rate_power_index],
+                                     initial_accumulator_value=individual[_initial_accumulator_value_index],
+                                     l1_regularization_strength=individual[_l1_regularization_strength_index],
+                                     l2_regularization_strength=individual[_l2_regularization_strength_index],
+                                     l2_shrinkage_regularization_strength=individual[_l2_shrinkage_regularization_strength_index],
+                                     beta=individual[_beta_index],
+                                     weight_decay=individual[_weight_decay_index],
+                                     use_ema=individual[_use_ema_index],
+                                     ema_momentum=individual[_ema_momentum_index])
+    if individual[_base_index] == "Adamax":
         logging.info('Building Adamax optimizer to use for %s.', individual_string(individual))
-        return keras.optimizers.Adamax(learning_rate=individual[1],
-                                       beta_1=individual[15],
-                                       beta_2=individual[16],
-                                       epsilon=individual[13],
-                                       weight_decay=individual[5],
-                                       clipnorm=individual[6],
-                                       clipvalue=individual[7],
-                                       global_clipnorm=individual[8],
-                                       use_ema=individual[9],
-                                       ema_momentum=individual[10],
-                                       ema_overwrite_frequency=individual[11])
-    if individual[0] == "Adam":
+        return keras.optimizers.Adamax(learning_rate=individual[_learning_rate_index],
+                                       beta_1=individual[_beta_1_index],
+                                       beta_2=individual[_beta_2_index],
+                                       epsilon=individual[_epsilon_index],
+                                       weight_decay=individual[_weight_decay_index],
+                                       use_ema=individual[_use_ema_index],
+                                       ema_momentum=individual[_ema_momentum_index])
+    if individual[_base_index] == "Adam":
         logging.info('Building Adam optimizer to use for %s.', individual_string(individual))
-        return keras.optimizers.Adam(learning_rate=individual[1],
-                                     beta_1=individual[15],
-                                     beta_2=individual[16],
-                                     epsilon=individual[13],
-                                     amsgrad=[4],
-                                     weight_decay=individual[5],
-                                     clipnorm=individual[6],
-                                     clipvalue=individual[7],
-                                     global_clipnorm=individual[8],
-                                     use_ema=individual[9],
-                                     ema_momentum=individual[10],
-                                     ema_overwrite_frequency=individual[11])
-    if individual[0] == "Adagrad":
+        return keras.optimizers.Adam(learning_rate=individual[_learning_rate_index],
+                                     beta_1=individual[_beta_1_index],
+                                     beta_2=individual[_beta_2_index],
+                                     epsilon=individual[_epsilon_index],
+                                     amsgrad=[_amsgrad_index],
+                                     weight_decay=individual[_weight_decay_index],
+                                     use_ema=individual[_use_ema_index],
+                                     ema_momentum=individual[_ema_momentum_index])
+    if individual[_base_index] == "Adagrad":
         logging.info('Building Adagrad optimizer to use for %s.', individual_string(individual))
-        return keras.optimizers.Adagrad(learning_rate=individual[1],
-                                        initial_accumulator_value=individual[18],
-                                        epsilon=individual[13],
-                                        weight_decay=individual[5],
-                                        clipnorm=individual[6],
-                                        clipvalue=individual[7],
-                                        global_clipnorm=individual[8],
-                                        use_ema=individual[9],
-                                        ema_momentum=individual[10],
-                                        ema_overwrite_frequency=individual[11])
-    if individual[0] == "Adadelta":
+        return keras.optimizers.Adagrad(learning_rate=individual[_learning_rate_index],
+                                        initial_accumulator_value=individual[_initial_accumulator_value_index],
+                                        epsilon=individual[_epsilon_index],
+                                        weight_decay=individual[_weight_decay_index],
+                                        use_ema=individual[_use_ema_index],
+                                        ema_momentum=individual[_ema_momentum_index])
+    if individual[_base_index] == "Adadelta":
         logging.info('Building Adadelta optimizer to use for %s.', individual_string(individual))
-        return keras.optimizers.Adadelta(learning_rate=individual[1],
-                                         rho=individual[12],
-                                         epsilon=individual[13],
-                                         weight_decay=individual[5],
-                                         clipnorm=individual[6],
-                                         clipvalue=individual[7],
-                                         global_clipnorm=individual[8],
-                                         use_ema=individual[9],
-                                         ema_momentum=individual[10],
-                                         ema_overwrite_frequency=individual[11])
+        return keras.optimizers.Adadelta(learning_rate=individual[_learning_rate_index],
+                                         rho=individual[_rho_index],
+                                         epsilon=individual[_epsilon_index],
+                                         weight_decay=individual[_weight_decay_index],
+                                         use_ema=individual[_use_ema_index],
+                                         ema_momentum=individual[_ema_momentum_index])
 
-    logging.error("individual[0] is '" + individual[
-        0] + "' but must be one of \'SGD\', 'RMSprop', 'Adagrad', 'Adadelta', 'Adam', 'Adamax', 'Nadam', or 'Ftrl'")
-    raise ValueError("individual[0] is '" + individual[
-        0] + "' but must be one of \'SGD\', 'RMSprop', 'Adagrad', 'Adadelta', 'Adam', 'Adamax', 'Nadam', or 'Ftrl'")
+    logging.error("individual[_base_index] is '" + individual[
+        _base_index] + "' but must be one of \'SGD\', 'RMSprop', 'Adagrad', 'Adadelta', 'Adam', 'Adamax', 'Nadam', or 'Ftrl'")
+    raise ValueError("individual[_base_index] is '" + individual[
+        _base_index] + "' but must be one of \'SGD\', 'RMSprop', 'Adagrad', 'Adadelta', 'Adam', 'Adamax', 'Nadam', or 'Ftrl'")
 
 
 def _register_individual():
-    # 0. The existing optimizer on which this chromosome is based. Can be one of SGD, RMSprop, Adagrad, Adadelta, Adam, Adamax, Nadam, or Ftrl.
-    logging.info(
-        'Registering initialisation method for `base` using a random choice from the following values %s',
-        _possible_base_values)
-    toolbox.register("base", random.choice, _possible_base_values)
+    # The existing optimizer on which this chromosome is based. Can be one of SGD, RMSprop, Adagrad, Adadelta, Adam, Adamax, Nadam, or Ftrl.
+    toolbox.register("base", _base)
 
-    # 1. A floating point value. The learning rate. Applicable to SGD, RMSprop, Nadam, Ftrl, Adamax, Adam, Adagrad, Adadelta'
-    logging.info(
-        'Registering initialisation method for `learning_rate` using a random choice from the following values %s',
-        _possible_learning_rate_values)
-    toolbox.register("learning_rate", random.choice, _possible_learning_rate_values)
+    # A floating point value. The learning rate. Applicable to SGD, RMSprop, Nadam, Ftrl, Adamax, Adam, Adagrad, Adadelta'
+    toolbox.register("learning_rate", _learning_rate)
 
-    # 2. float (>= 0). Accelerates gradient descent in the relevant direction and dampens oscillations. Applicable to SGD, RMSprop'
-    logging.info(
-        'Registering initialisation method for `momentum` using a random choice from the following values %s',
-        _possible_momentum_values)
-    toolbox.register("momentum", random.choice, _possible_momentum_values)
+    # float (>= 0). Accelerates gradient descent in the relevant direction and dampens oscillations. Applicable to SGD, RMSprop'
+    toolbox.register("momentum", _momentum)
 
-    # 3. Boolean. Whether to apply Nesterov momentum. Applicable to SGD
-    logging.info(
-        'Registering initialisation method for `nesterov` using a random choice from the following values %s',
-        _possible_nesterov_values)
-    toolbox.register("nesterov", random.choice, _possible_nesterov_values)
+    # Boolean. Whether to apply Nesterov momentum. Applicable to SGD
+    toolbox.register("nesterov", _nesterov)
 
-    # 4. Boolean. Whether to apply AMSGrad variant of this algorithm from the paper "On the Convergence of Adam and beyond". Applicable to Adam
-    logging.info(
-        'Registering initialisation method for `amsgrad` using a random choice from the following values %s',
-        _possible_amsgrad_values)
-    toolbox.register("amsgrad", random.choice, _possible_amsgrad_values)
+    # Boolean. Whether to apply AMSGrad variant of this algorithm from the paper "On the Convergence of Adam and beyond". Applicable to Adam
+    toolbox.register("amsgrad", _amsgrad)
 
-    # 5. Float, defaults to None. If set, weight decay is applied. Applicable to SGD, RMSprop, Nadam, Ftrl, Adamax, Adam, Adagrad, Adadelta'
-    logging.info(
-        'Registering initialisation method for `weight_decay` using a random choice from the following values %s',
-        _possible_weight_decay_values)
-    toolbox.register("weight_decay", random.choice, _possible_weight_decay_values)
+    # Float, defaults to None. If set, weight decay is applied. Applicable to SGD, RMSprop, Nadam, Ftrl, Adamax, Adam, Adagrad, Adadelta'
+    toolbox.register("weight_decay", _weight_decay)
 
-    # 6. Float, or None.  If set, the gradient of each weight is individually clipped so that its norm is no higher than this value. Applicable to SGD, RMSprop, Nadam, Ftrl, Adamax, Adam, Adagrad, Adadelta'
-    logging.info(
-        'Registering initialisation method for `clipnorm` using a random choice from the following values %s',
-        _possible_clipnorm_values)
-    toolbox.register("clipnorm", random.choice, _possible_clipnorm_values)
+    # Boolean. If True, exponential moving average (EMA) is applied. EMA consists of computing an exponential moving average of the weights of the model (as the weight values change after each training batch), and periodically overwriting the weights with their moving average. Applicable to SGD, RMSprop, Nadam, Ftrl, Adamax, Adam, Adagrad, Adadelta'
+    toolbox.register("use_ema", _use_ema)
 
-    # 7. Float, or None. If set, the gradient of each weight is clipped to be no higher than this value. Applicable to SGD, RMSprop, Nadam, Ftrl, Adamax, Adam, Adagrad, Adadelta'
-    logging.info(
-        'Registering initialisation method for `clipvalue` using a random choice from the following values %s',
-        _possible_clipvalue_values)
-    toolbox.register("clipvalue", random.choice, _possible_clipvalue_values)
+    # Float. Only used if use_ema=True. This is # noqa: E501 the momentum to use when computing the EMA of the model's weights: new_average = ema_momentum * old_average + (1 - ema_momentum) * current_variable_value. Applicable to SGD, RMSprop, Nadam, Ftrl, Adamax, Adam, Adagrad, Adadelta'
+    toolbox.register("ema_momentum", _ema_momentum)
 
-    # 8. Float, or None. If set, the gradient of all weights is clipped so that their global norm is no higher than this value. Applicable to SGD, RMSprop, Nadam, Ftrl, Adamax, Adam, Adagrad, Adadelta
-    logging.info(
-        'Registering initialisation method for `global_clipnorm` using a random choice from the following values %s',
-        _possible_global_clipnorm_values)
-    toolbox.register("global_clipnorm", random.choice, _possible_global_clipnorm_values)
+    # float, defaults to 0.9. Discounting factor for the old gradients. Applicable to RMSprop, Adadelta'
+    toolbox.register("rho", _rho)
 
-    # 9. Boolean. If True, exponential moving average (EMA) is applied. EMA consists of computing an exponential moving average of the weights of the model (as the weight values change after each training batch), and periodically overwriting the weights with their moving average. Applicable to SGD, RMSprop, Nadam, Ftrl, Adamax, Adam, Adagrad, Adadelta'
-    logging.info(
-        'Registering initialisation method for `use_ema` using a random choice from the following values %s',
-        _possible_use_ema_values)
-    toolbox.register("use_ema", random.choice, _possible_use_ema_values)
+    # A small constant for numerical stability. This epsilon is "epsilon hat" in the Kingma and Ba paper (in the formula just before Section 2.1), not the epsilon in Algorithm 1 of the paper. Defaults to 1e-7. Applicable to RMSprop, Nadam, Adamax, Adam, Adagrad, Adadelta'
+    toolbox.register("epsilon", _epsilon)
 
-    # 10. Float. Only used if use_ema=True. This is # noqa: E501 the momentum to use when computing the EMA of the model's weights: new_average = ema_momentum * old_average + (1 - ema_momentum) * current_variable_value. Applicable to SGD, RMSprop, Nadam, Ftrl, Adamax, Adam, Adagrad, Adadelta'
-    logging.info(
-        'Registering initialisation method for `ema_momentum` using a random choice from the following values %s',
-        _possible_ema_momentum_values)
-    toolbox.register("ema_momentum", random.choice, _possible_ema_momentum_values)
+    # Boolean. If True, gradients are normalized by the estimated variance of the gradient; if False, by the uncentered second moment. Setting this to True may help with training, but is slightly more expensive in terms of computation and memory. Defaults to False. Applicable to RMSprop'
+    toolbox.register("centered", _centered)
 
-    # 11. Int or None. Only used if use_ema=True. Every ema_overwrite_frequency steps of iterations, we overwrite the model variable by its moving average. If None, the optimizer # noqa: E501 does not overwrite model variables in the middle of training, and you need to explicitly overwrite the variables at the end of training by calling optimizer.finalize_variable_values() (which updates the model # noqa: E501 variables in-place). When using the built-in fit() training loop, this happens automatically after the last epoch, and you don't need to do anything. Applicable to SGD, RMSprop, Nadam, Ftrl, Adamax, Adam, Adagrad, Adadelta
-    logging.info(
-        'Registering initialisation method for `ema_overwrite_frequency` using a random choice from the following values %s',
-        _possible_ema_overwrite_frequency_values)
-    toolbox.register("ema_overwrite_frequency", random.choice, _possible_ema_overwrite_frequency_values)
+    # A float value. The exponential decay rate for the 1st moment estimates. Defaults to 0.9. Applicable to Nadam, Adamax, Adam'
+    toolbox.register("beta_1", _beta_1)
 
-    # 12.float, defaults to 0.9. Discounting factor for the old gradients. Applicable to RMSprop, Adadelta'
-    logging.info(
-        'Registering initialisation method for `rho` using a random choice from the following values %s',
-        _possible_rho_values)
-    toolbox.register("rho", random.choice, _possible_rho_values)
+    # A float value. The exponential decay rate for the 2nd moment estimates. Defaults to 0.999. Applicable to Nadam, Adamax, Adam'
+    toolbox.register("beta_2", _beta_2)
 
-    # 13. A small constant for numerical stability. This epsilon is "epsilon hat" in the Kingma and Ba paper (in the formula just before Section 2.1), not the epsilon in Algorithm 1 of the paper. Defaults to 1e-7. Applicable to RMSprop, Nadam, Adamax, Adam, Adagrad, Adadelta'
-    logging.info(
-        'Registering initialisation method for `epsilon` using a random choice from the following values %s',
-        _possible_epsilon_values)
-    toolbox.register("epsilon", random.choice, _possible_epsilon_values)
+    # A float value. Must be less or equal to zero. Controls how the learning rate decreases during training. Use zero for a fixed learning rate. Applicable to Ftrl'
+    toolbox.register("learning_rate_power", _learning_rate_power)
 
-    # 14. Boolean. If True, gradients are normalized by the estimated variance of the gradient; if False, by the uncentered second moment. Setting this to True may help with training, but is slightly more expensive in terms of computation and memory. Defaults to False. Applicable to RMSprop'
-    logging.info(
-        'Registering initialisation method for `centered` using a random choice from the following values %s',
-        _possible_centered_values)
-    toolbox.register("centered", random.choice, _possible_centered_values)
+    # A float value. The starting value for accumulators. Only zero or positive values are allowed. Applicable to Ftrl, Adagrad'
+    toolbox.register("initial_accumulator_value", _initial_accumulator_value)
 
-    # 15. A float value. The exponential decay rate for the 1st moment estimates. Defaults to 0.9. Applicable to Nadam, Adamax, Adam'
-    logging.info(
-        'Registering initialisation method for `beta_1` using a random choice from the following values %s',
-        _possible_beta_1_values)
-    toolbox.register("beta_1", random.choice, _possible_beta_1_values)
+    # A float value, must be greater than or equal to zero. Defaults to 0.0. Applicable to Ftrl'
+    toolbox.register("l1_regularization_strength", _l1_regularization_strength)
 
-    # 16. A float value. The exponential decay rate for the 2nd moment estimates. Defaults to 0.999. Applicable to Nadam, Adamax, Adam'
-    logging.info(
-        'Registering initialisation method for `beta_2` using a random choice from the following values %s',
-        _possible_beta_2_values)
-    toolbox.register("beta_2", random.choice, _possible_beta_2_values)
+    # A float value, must be greater than or equal to zero. Defaults to 0.0. Applicable to Ftrl'
+    toolbox.register("l2_regularization_strength", _l2_regularization_strength)
 
-    # 17. A float value. Must be less or equal to zero. Controls how the learning rate decreases during training. Use zero for a fixed learning rate. Applicable to Ftrl'
-    logging.info(
-        'Registering initialisation method for `learning_rate_power` using a random choice from the following values %s',
-        _possible_learning_rate_power_values)
-    toolbox.register("learning_rate_power", random.choice, _possible_learning_rate_power_values)
+    # A float value, must be greater than or equal to zero. This differs from L2 above in that the L2 above is a stabilization penalty, whereas this L2 shrinkage is a magnitude penalty. When input is sparse shrinkage will only happen on the active weights. Applicable to Ftrl'
+    toolbox.register("l2_shrinkage_regularization_strength", random.choice, _l2_shrinkage_regularization_strength)
 
-    # 18. A float value. The starting value for accumulators. Only zero or positive values are allowed. Applicable to Ftrl, Adagrad'
-    logging.info(
-        'Registering initialisation method for `initial_accumulator_value` using a random choice from the following values %s',
-        _possible_initial_accumulator_value_values)
-    toolbox.register("initial_accumulator_value", random.choice, _possible_initial_accumulator_value_values)
-
-    # 19. A float value, must be greater than or equal to zero. Defaults to 0.0. Applicable to Ftrl'
-    logging.info(
-        'Registering initialisation method for `l1_regularization_strength` using a random choice from the following values %s',
-        _possible_l1_regularization_strength_values)
-    toolbox.register("l1_regularization_strength", random.choice, _possible_l1_regularization_strength_values)
-
-    # 20. A float value, must be greater than or equal to zero. Defaults to 0.0. Applicable to Ftrl'
-    logging.info(
-        'Registering initialisation method for `l2_regularization_strength` using a random choice from the following values %s',
-        _possible_l2_regularization_strength_values)
-    toolbox.register("l2_regularization_strength", random.choice, _possible_l2_regularization_strength_values)
-
-    # 21. A float value, must be greater than or equal to zero. This differs from L2 above in that the L2 above is a stabilization penalty, whereas this L2 shrinkage is a magnitude penalty. When input is sparse shrinkage will only happen on the active weights. Applicable to Ftrl'
-    logging.info(
-        'Registering initialisation method for `l2_shrinkage_regularization_strength` using a random choice from the following values %s',
-        _possible_l2_shrinkage_regularization_strength_values)
-    toolbox.register("l2_shrinkage_regularization_strength", random.choice,
-                     _possible_l2_shrinkage_regularization_strength_values)
-
-    # 22. A float value,  representing the beta value from the paper. Defaults to 0.0. Applicable to Ftrl'
-    logging.info(
-        'Registering initialisation method for `beta` using a random choice from the following values %s',
-        _possible_beta_values)
-    toolbox.register("beta", random.choice, _possible_beta_values)
+    # A float value,  representing the beta value from the paper. Defaults to 0.0. Applicable to Ftrl'
+    toolbox.register("beta", _beta)
 
     logging.info('Registering individual initialization method.')
     toolbox.register("individual", tools.initCycle, creator.Individual, (
-        toolbox.base,  # 0
-        toolbox.learning_rate,  # 1
-        toolbox.momentum,  # 2
-        toolbox.nesterov,  # 3
-        toolbox.amsgrad,  # 4
-        toolbox.weight_decay,  # 5
-        toolbox.clipnorm,  # 6
-        toolbox.clipvalue,  # 7
-        toolbox.global_clipnorm,  # 8
-        toolbox.use_ema,  # 9
-        toolbox.ema_momentum,  # 10
-        toolbox.ema_overwrite_frequency,  # 11
-        toolbox.rho,  # 12
-        toolbox.epsilon,  # 13
-        toolbox.centered,  # 14
-        toolbox.beta_1,  # 15
-        toolbox.beta_2,  # 16
-        toolbox.learning_rate_power,  # 17
-        toolbox.initial_accumulator_value,  # 18
-        toolbox.l1_regularization_strength,  # 19
-        toolbox.l2_regularization_strength,  # 20
-        toolbox.l2_shrinkage_regularization_strength,  # 21
-        toolbox.beta  # 22
+        toolbox.base,
+        toolbox.learning_rate,
+        toolbox.momentum,
+        toolbox.nesterov,
+        toolbox.amsgrad,
+        toolbox.weight_decay,
+        toolbox.use_ema,
+        toolbox.ema_momentum,
+        toolbox.rho,
+        toolbox.epsilon,
+        toolbox.centered,
+        toolbox.beta_1,
+        toolbox.beta_2,
+        toolbox.learning_rate_power,
+        toolbox.initial_accumulator_value,
+        toolbox.l1_regularization_strength,
+        toolbox.l2_regularization_strength,
+        toolbox.l2_shrinkage_regularization_strength,
+        toolbox.beta,
     ), n=1)
 
 
@@ -444,95 +384,79 @@ def _register_selection_method(tournsize):
 def _mutate_optimizer(individual, gene_mut_prob):
     r = random.uniform(0, 1)
     if r < gene_mut_prob:
-        individual[0] = random.choice(_possible_base_values)
+        individual[_base_index] = _base()
 
     r = random.uniform(0, 1)
     if r < gene_mut_prob:
-        individual[1] = random.choice(_possible_learning_rate_values)
+        individual[_learning_rate_index] = _learning_rate()
 
     r = random.uniform(0, 1)
     if r < gene_mut_prob:
-        individual[2] = random.choice(_possible_momentum_values)
+        individual[_momentum_index] = _momentum()
 
     r = random.uniform(0, 1)
     if r < gene_mut_prob:
-        individual[3] = random.choice(_possible_nesterov_values)
+        individual[_nesterov_index] = _nesterov()
 
     r = random.uniform(0, 1)
     if r < gene_mut_prob:
-        individual[4] = random.choice(_possible_amsgrad_values)
+        individual[_amsgrad_index] = _amsgrad()
 
     r = random.uniform(0, 1)
     if r < gene_mut_prob:
-        individual[5] = random.choice(_possible_weight_decay_values)
+        individual[_weight_decay_index] = _weight_decay()
 
     r = random.uniform(0, 1)
     if r < gene_mut_prob:
-        individual[6] = random.choice(_possible_clipnorm_values)
+        individual[_use_ema_index] = _use_ema()
 
     r = random.uniform(0, 1)
     if r < gene_mut_prob:
-        individual[7] = random.choice(_possible_clipvalue_values)
+        individual[_ema_momentum_index] = _ema_momentum()
 
     r = random.uniform(0, 1)
     if r < gene_mut_prob:
-        individual[8] = random.choice(_possible_global_clipnorm_values)
+        individual[_rho_index] = _rho()
 
     r = random.uniform(0, 1)
     if r < gene_mut_prob:
-        individual[9] = random.choice(_possible_use_ema_values)
+        individual[_epsilon_index] = _epsilon()
 
     r = random.uniform(0, 1)
     if r < gene_mut_prob:
-        individual[10] = random.choice(_possible_ema_momentum_values)
+        individual[_centered_index] = _centered()
 
     r = random.uniform(0, 1)
     if r < gene_mut_prob:
-        individual[11] = random.choice(_possible_ema_overwrite_frequency_values)
+        individual[_beta_1_index] = _beta_1()
 
     r = random.uniform(0, 1)
     if r < gene_mut_prob:
-        individual[12] = random.choice(_possible_rho_values)
+        individual[_beta_2_index] = _beta_2()
 
     r = random.uniform(0, 1)
     if r < gene_mut_prob:
-        individual[13] = random.choice(_possible_epsilon_values)
+        individual[_learning_rate_power_index] = _learning_rate_power()
 
     r = random.uniform(0, 1)
     if r < gene_mut_prob:
-        individual[14] = random.choice(_possible_centered_values)
+        individual[_initial_accumulator_value_index] = _initial_accumulator_value()
 
     r = random.uniform(0, 1)
     if r < gene_mut_prob:
-        individual[15] = random.choice(_possible_beta_1_values)
+        individual[_l1_regularization_strength_index] = _l1_regularization_strength()
 
     r = random.uniform(0, 1)
     if r < gene_mut_prob:
-        individual[16] = random.choice(_possible_beta_2_values)
+        individual[_l2_shrinkage_regularization_strength_index] = _l2_shrinkage_regularization_strength()
 
     r = random.uniform(0, 1)
     if r < gene_mut_prob:
-        individual[17] = random.choice(_possible_learning_rate_power_values)
+        individual[_l2_shrinkage_regularization_strength_index] = _l2_shrinkage_regularization_strength()
 
     r = random.uniform(0, 1)
     if r < gene_mut_prob:
-        individual[18] = random.choice(_possible_initial_accumulator_value_values)
-
-    r = random.uniform(0, 1)
-    if r < gene_mut_prob:
-        individual[19] = random.choice(_possible_l1_regularization_strength_values)
-
-    r = random.uniform(0, 1)
-    if r < gene_mut_prob:
-        individual[20] = random.choice(_possible_l2_regularization_strength_values)
-
-    r = random.uniform(0, 1)
-    if r < gene_mut_prob:
-        individual[21] = random.choice(_possible_l2_shrinkage_regularization_strength_values)
-
-    r = random.uniform(0, 1)
-    if r < gene_mut_prob:
-        individual[22] = random.choice(_possible_beta_values)
+        individual[_beta_index] = _beta()
 
     return [individual]
 
@@ -547,7 +471,7 @@ def _register_genetic_operators(gene_mut_prob):
 # ========================================= EVOLUTIONARY ALGORITHM =====================================================
 # ======================================================================================================================
 
-def eaSimple(population, toolbox, cxpb, mutpb, ngen, stats=None,
+def ea_simple(population, toolbox, cxpb, mutpb, ngen, stats=None,
              halloffame=None, verbose=__debug__):
     """The following Evolutionary algorithm is actually taken from the DEAP library. We just have our own implementation
     to add additional logging. See https://deap.readthedocs.io/en/master/api/algo.html#deap.algorithms.eaSimple."""
@@ -627,7 +551,7 @@ def run(model_name, input_shape, num_classes, x_train, y_train, x_test, y_test, 
     pop = toolbox.population(n=pop_size)
 
     logging.info('Running the evolutionary algorithm.')
-    pop, log = eaSimple(pop, toolbox, cxpb=cxpb, mutpb=mutpb, ngen=ngen,
+    pop, log = ea_simple(pop, toolbox, cxpb=cxpb, mutpb=mutpb, ngen=ngen,
                                    stats=stats, halloffame=hof, verbose=True)
 
     # Return the hall of fame and results
