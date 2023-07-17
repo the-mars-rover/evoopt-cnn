@@ -1,7 +1,7 @@
 #!/bin/bash
 #PBS -P CSCI0806
 #PBS -N fashionmnist_pop100_gen100_alexnet_tou20_cxp50_mut20_gmp50_alexnet_epo10_bat128_sed1
-#PBS -l select=1:ncpus=10:ngpus=4
+#PBS -l select=1:ncpus=6:ngpus=4
 #PBS -l walltime=12:00:00
 #PBS -q gpu_4
 #PBS -m abe
@@ -16,7 +16,7 @@ conda activate evoopt-cnn-env
 cd /mnt/lustre/users/mbornman1/evoopt-cnn
 python3 experiment.py \
  --results_path "/mnt/lustre/users/mbornman1/evoopt-cnn/experiments/fashionmnist_pop100_gen100_alexnet_tou20_cxp50_mut20_gmp50_alexnet_epo10_bat128_sed1" \
- --cpu_count 8 \
+ --cpu_count 5 \
  --dataset "fashion_mnist" \
  --seed 1 \
  --pop_size 100 \
