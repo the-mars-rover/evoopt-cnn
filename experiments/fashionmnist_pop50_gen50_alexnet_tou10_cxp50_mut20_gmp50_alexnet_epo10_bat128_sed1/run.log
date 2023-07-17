@@ -1,0 +1,17 @@
+2023-07-16 22:48:42,565 INFO: Starting experiment with the arguments logged below.
+2023-07-16 22:48:42,566 INFO: Namespace(results_path='/mnt/lustre/users/mbornman1/evoopt-cnn/experiments/fashionmnist_pop50_gen50_alexnet_tou10_cxp50_mut20_gmp50_alexnet_epo10_bat128_sed1', cpu_count=6, seed=1, dataset='fashion_mnist', pop_size=50, ngen=50, model='alexnet', epochs=10, batch_size=128, tournsize=10, cxpb=0.5, mutpb=0.2, gene_mut_prob=0.5)
+2023-07-16 22:48:42,566 INFO: Setting the random number generator seed for this experiment.
+2023-07-16 22:48:42,566 INFO: Initializing the multiprocessing pool.
+2023-07-16 22:48:42,576 INFO: Loading dataset for the experiment.
+2023-07-16 22:48:42,960 INFO: Running the evolutionary algorithm with the given hyper-parameters. This may take a while. Statistics for every generation will be printed below.
+2023-07-16 22:48:42,960 INFO: Setting up DEAP toolbox.
+2023-07-16 22:48:42,960 INFO: Registering individual initialization method.
+2023-07-16 22:48:42,960 INFO: Registering population initialization method.
+2023-07-16 22:48:42,960 INFO: Registering the selection method.
+2023-07-16 22:48:42,960 INFO: Registering the evaluation method.
+2023-07-16 22:48:42,960 INFO: Registering the genetic operators.
+2023-07-16 22:48:42,960 INFO: Setting up the hall of fame and stats we want to keep track of.
+2023-07-16 22:48:42,961 INFO: Initializing the initial population.
+2023-07-16 22:48:42,989 INFO: Running the evolutionary algorithm.
+2023-07-16 22:48:42,989 INFO: Evaluating fitness for the initial generation of individuals.
+2023-07-16 22:48:42,989 INFO: Will evaluate fitness for 50 individuals.
