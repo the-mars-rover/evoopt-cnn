@@ -1,0 +1,180 @@
+2023-07-16 22:48:21,639 INFO: Starting experiment with the arguments logged below.
+2023-07-16 22:48:21,640 INFO: Namespace(results_path='/mnt/lustre/users/mbornman1/evoopt-cnn/experiments/fashionmnist_pop20_gen40_alexnet_tou5_cxp50_mut20_gmp50_alexnet_epo10_bat128_sed1', cpu_count=4, seed=1, dataset='fashion_mnist', pop_size=20, ngen=40, model='alexnet', epochs=10, batch_size=128, tournsize=5, cxpb=0.5, mutpb=0.2, gene_mut_prob=0.5)
+2023-07-16 22:48:21,640 INFO: Setting the random number generator seed for this experiment.
+2023-07-16 22:48:21,640 INFO: Initializing the multiprocessing pool.
+2023-07-16 22:48:21,650 INFO: Loading dataset for the experiment.
+2023-07-16 22:48:22,030 INFO: Running the evolutionary algorithm with the given hyper-parameters. This may take a while. Statistics for every generation will be printed below.
+2023-07-16 22:48:22,030 INFO: Setting up DEAP toolbox.
+2023-07-16 22:48:22,030 INFO: Registering individual initialization method.
+2023-07-16 22:48:22,030 INFO: Registering population initialization method.
+2023-07-16 22:48:22,030 INFO: Registering the selection method.
+2023-07-16 22:48:22,030 INFO: Registering the evaluation method.
+2023-07-16 22:48:22,030 INFO: Registering the genetic operators.
+2023-07-16 22:48:22,031 INFO: Setting up the hall of fame and stats we want to keep track of.
+2023-07-16 22:48:22,031 INFO: Initializing the initial population.
+2023-07-16 22:48:22,040 INFO: Running the evolutionary algorithm.
+2023-07-16 22:48:22,040 INFO: Evaluating fitness for the initial generation of individuals.
+2023-07-16 22:48:22,040 INFO: Will evaluate fitness for 20 individuals.
+2023-07-16 22:58:53,834 INFO: Applying selection operators for generation 1.
+2023-07-16 22:58:53,834 INFO: Applying genetic operators for generation 1.
+2023-07-16 22:58:53,835 INFO: Evaluating fitness for for generation 1.
+2023-07-16 22:58:53,835 INFO: Will evaluate fitness for 14 individuals.
+2023-07-16 23:06:00,721 INFO: Applying selection operators for generation 2.
+2023-07-16 23:06:00,721 INFO: Applying genetic operators for generation 2.
+2023-07-16 23:06:00,723 INFO: Evaluating fitness for for generation 2.
+2023-07-16 23:06:00,723 INFO: Will evaluate fitness for 14 individuals.
+2023-07-16 23:13:11,405 INFO: Applying selection operators for generation 3.
+2023-07-16 23:13:11,405 INFO: Applying genetic operators for generation 3.
+2023-07-16 23:13:11,406 INFO: Evaluating fitness for for generation 3.
+2023-07-16 23:13:11,407 INFO: Will evaluate fitness for 10 individuals.
+2023-07-16 23:18:24,350 INFO: Applying selection operators for generation 4.
+2023-07-16 23:18:24,351 INFO: Applying genetic operators for generation 4.
+2023-07-16 23:18:24,353 INFO: Evaluating fitness for for generation 4.
+2023-07-16 23:18:24,353 INFO: Will evaluate fitness for 16 individuals.
+2023-07-16 23:26:22,646 INFO: Applying selection operators for generation 5.
+2023-07-16 23:26:22,646 INFO: Applying genetic operators for generation 5.
+2023-07-16 23:26:22,649 INFO: Evaluating fitness for for generation 5.
+2023-07-16 23:26:22,649 INFO: Will evaluate fitness for 16 individuals.
+2023-07-16 23:34:41,907 INFO: Applying selection operators for generation 6.
+2023-07-16 23:34:41,908 INFO: Applying genetic operators for generation 6.
+2023-07-16 23:34:41,910 INFO: Evaluating fitness for for generation 6.
+2023-07-16 23:34:41,910 INFO: Will evaluate fitness for 7 individuals.
+2023-07-16 23:38:21,117 INFO: Applying selection operators for generation 7.
+2023-07-16 23:38:21,117 INFO: Applying genetic operators for generation 7.
+2023-07-16 23:38:21,119 INFO: Evaluating fitness for for generation 7.
+2023-07-16 23:38:21,120 INFO: Will evaluate fitness for 7 individuals.
+2023-07-16 23:42:03,977 INFO: Applying selection operators for generation 8.
+2023-07-16 23:42:03,977 INFO: Applying genetic operators for generation 8.
+2023-07-16 23:42:03,979 INFO: Evaluating fitness for for generation 8.
+2023-07-16 23:42:03,980 INFO: Will evaluate fitness for 13 individuals.
+2023-07-16 23:48:49,712 INFO: Applying selection operators for generation 9.
+2023-07-16 23:48:49,712 INFO: Applying genetic operators for generation 9.
+2023-07-16 23:48:49,714 INFO: Evaluating fitness for for generation 9.
+2023-07-16 23:48:49,715 INFO: Will evaluate fitness for 14 individuals.
+2023-07-16 23:56:03,341 INFO: Applying selection operators for generation 10.
+2023-07-16 23:56:03,341 INFO: Applying genetic operators for generation 10.
+2023-07-16 23:56:03,344 INFO: Evaluating fitness for for generation 10.
+2023-07-16 23:56:03,344 INFO: Will evaluate fitness for 11 individuals.
+2023-07-17 00:01:42,827 INFO: Applying selection operators for generation 11.
+2023-07-17 00:01:42,827 INFO: Applying genetic operators for generation 11.
+2023-07-17 00:01:42,830 INFO: Evaluating fitness for for generation 11.
+2023-07-17 00:01:42,830 INFO: Will evaluate fitness for 16 individuals.
+2023-07-17 00:09:38,436 INFO: Applying selection operators for generation 12.
+2023-07-17 00:09:38,436 INFO: Applying genetic operators for generation 12.
+2023-07-17 00:09:38,438 INFO: Evaluating fitness for for generation 12.
+2023-07-17 00:09:38,438 INFO: Will evaluate fitness for 11 individuals.
+2023-07-17 00:15:12,163 INFO: Applying selection operators for generation 13.
+2023-07-17 00:15:12,164 INFO: Applying genetic operators for generation 13.
+2023-07-17 00:15:12,167 INFO: Evaluating fitness for for generation 13.
+2023-07-17 00:15:12,167 INFO: Will evaluate fitness for 13 individuals.
+2023-07-17 00:21:44,661 INFO: Applying selection operators for generation 14.
+2023-07-17 00:21:44,662 INFO: Applying genetic operators for generation 14.
+2023-07-17 00:21:44,664 INFO: Evaluating fitness for for generation 14.
+2023-07-17 00:21:44,665 INFO: Will evaluate fitness for 10 individuals.
+2023-07-17 00:27:03,296 INFO: Applying selection operators for generation 15.
+2023-07-17 00:27:03,297 INFO: Applying genetic operators for generation 15.
+2023-07-17 00:27:03,300 INFO: Evaluating fitness for for generation 15.
+2023-07-17 00:27:03,300 INFO: Will evaluate fitness for 15 individuals.
+2023-07-17 00:34:43,263 INFO: Applying selection operators for generation 16.
+2023-07-17 00:34:43,264 INFO: Applying genetic operators for generation 16.
+2023-07-17 00:34:43,266 INFO: Evaluating fitness for for generation 16.
+2023-07-17 00:34:43,267 INFO: Will evaluate fitness for 13 individuals.
+2023-07-17 00:41:45,065 INFO: Applying selection operators for generation 17.
+2023-07-17 00:41:45,066 INFO: Applying genetic operators for generation 17.
+2023-07-17 00:41:45,068 INFO: Evaluating fitness for for generation 17.
+2023-07-17 00:41:45,068 INFO: Will evaluate fitness for 8 individuals.
+2023-07-17 00:46:05,093 INFO: Applying selection operators for generation 18.
+2023-07-17 00:46:05,094 INFO: Applying genetic operators for generation 18.
+2023-07-17 00:46:05,096 INFO: Evaluating fitness for for generation 18.
+2023-07-17 00:46:05,096 INFO: Will evaluate fitness for 14 individuals.
+2023-07-17 00:53:17,347 INFO: Applying selection operators for generation 19.
+2023-07-17 00:53:17,348 INFO: Applying genetic operators for generation 19.
+2023-07-17 00:53:17,350 INFO: Evaluating fitness for for generation 19.
+2023-07-17 00:53:17,350 INFO: Will evaluate fitness for 8 individuals.
+2023-07-17 00:57:19,930 INFO: Applying selection operators for generation 20.
+2023-07-17 00:57:19,931 INFO: Applying genetic operators for generation 20.
+2023-07-17 00:57:19,933 INFO: Evaluating fitness for for generation 20.
+2023-07-17 00:57:19,934 INFO: Will evaluate fitness for 14 individuals.
+2023-07-17 01:04:46,597 INFO: Applying selection operators for generation 21.
+2023-07-17 01:04:46,598 INFO: Applying genetic operators for generation 21.
+2023-07-17 01:04:46,600 INFO: Evaluating fitness for for generation 21.
+2023-07-17 01:04:46,600 INFO: Will evaluate fitness for 8 individuals.
+2023-07-17 01:08:54,027 INFO: Applying selection operators for generation 22.
+2023-07-17 01:08:54,028 INFO: Applying genetic operators for generation 22.
+2023-07-17 01:08:54,030 INFO: Evaluating fitness for for generation 22.
+2023-07-17 01:08:54,031 INFO: Will evaluate fitness for 17 individuals.
+2023-07-17 01:17:31,724 INFO: Applying selection operators for generation 23.
+2023-07-17 01:17:31,725 INFO: Applying genetic operators for generation 23.
+2023-07-17 01:17:31,727 INFO: Evaluating fitness for for generation 23.
+2023-07-17 01:17:31,727 INFO: Will evaluate fitness for 16 individuals.
+2023-07-17 01:25:35,436 INFO: Applying selection operators for generation 24.
+2023-07-17 01:25:35,437 INFO: Applying genetic operators for generation 24.
+2023-07-17 01:25:35,440 INFO: Evaluating fitness for for generation 24.
+2023-07-17 01:25:35,440 INFO: Will evaluate fitness for 12 individuals.
+2023-07-17 01:31:44,545 INFO: Applying selection operators for generation 25.
+2023-07-17 01:31:44,545 INFO: Applying genetic operators for generation 25.
+2023-07-17 01:31:44,547 INFO: Evaluating fitness for for generation 25.
+2023-07-17 01:31:44,547 INFO: Will evaluate fitness for 13 individuals.
+2023-07-17 01:38:32,070 INFO: Applying selection operators for generation 26.
+2023-07-17 01:38:32,070 INFO: Applying genetic operators for generation 26.
+2023-07-17 01:38:32,072 INFO: Evaluating fitness for for generation 26.
+2023-07-17 01:38:32,072 INFO: Will evaluate fitness for 8 individuals.
+2023-07-17 01:42:26,200 INFO: Applying selection operators for generation 27.
+2023-07-17 01:42:26,201 INFO: Applying genetic operators for generation 27.
+2023-07-17 01:42:26,203 INFO: Evaluating fitness for for generation 27.
+2023-07-17 01:42:26,203 INFO: Will evaluate fitness for 13 individuals.
+2023-07-17 01:49:16,016 INFO: Applying selection operators for generation 28.
+2023-07-17 01:49:16,017 INFO: Applying genetic operators for generation 28.
+2023-07-17 01:49:16,020 INFO: Evaluating fitness for for generation 28.
+2023-07-17 01:49:16,020 INFO: Will evaluate fitness for 16 individuals.
+2023-07-17 01:57:15,250 INFO: Applying selection operators for generation 29.
+2023-07-17 01:57:15,251 INFO: Applying genetic operators for generation 29.
+2023-07-17 01:57:15,254 INFO: Evaluating fitness for for generation 29.
+2023-07-17 01:57:15,254 INFO: Will evaluate fitness for 10 individuals.
+2023-07-17 02:02:27,199 INFO: Applying selection operators for generation 30.
+2023-07-17 02:02:27,200 INFO: Applying genetic operators for generation 30.
+2023-07-17 02:02:27,202 INFO: Evaluating fitness for for generation 30.
+2023-07-17 02:02:27,202 INFO: Will evaluate fitness for 14 individuals.
+2023-07-17 02:09:33,750 INFO: Applying selection operators for generation 31.
+2023-07-17 02:09:33,751 INFO: Applying genetic operators for generation 31.
+2023-07-17 02:09:33,754 INFO: Evaluating fitness for for generation 31.
+2023-07-17 02:09:33,754 INFO: Will evaluate fitness for 17 individuals.
+2023-07-17 02:18:25,333 INFO: Applying selection operators for generation 32.
+2023-07-17 02:18:25,333 INFO: Applying genetic operators for generation 32.
+2023-07-17 02:18:25,336 INFO: Evaluating fitness for for generation 32.
+2023-07-17 02:18:25,336 INFO: Will evaluate fitness for 12 individuals.
+2023-07-17 02:24:21,192 INFO: Applying selection operators for generation 33.
+2023-07-17 02:24:21,193 INFO: Applying genetic operators for generation 33.
+2023-07-17 02:24:21,196 INFO: Evaluating fitness for for generation 33.
+2023-07-17 02:24:21,197 INFO: Will evaluate fitness for 11 individuals.
+2023-07-17 02:30:09,398 INFO: Applying selection operators for generation 34.
+2023-07-17 02:30:09,398 INFO: Applying genetic operators for generation 34.
+2023-07-17 02:30:09,401 INFO: Evaluating fitness for for generation 34.
+2023-07-17 02:30:09,401 INFO: Will evaluate fitness for 15 individuals.
+2023-07-17 02:37:55,489 INFO: Applying selection operators for generation 35.
+2023-07-17 02:37:55,489 INFO: Applying genetic operators for generation 35.
+2023-07-17 02:37:55,492 INFO: Evaluating fitness for for generation 35.
+2023-07-17 02:37:55,492 INFO: Will evaluate fitness for 15 individuals.
+2023-07-17 02:45:37,828 INFO: Applying selection operators for generation 36.
+2023-07-17 02:45:37,829 INFO: Applying genetic operators for generation 36.
+2023-07-17 02:45:37,831 INFO: Evaluating fitness for for generation 36.
+2023-07-17 02:45:37,831 INFO: Will evaluate fitness for 11 individuals.
+2023-07-17 02:51:19,949 INFO: Applying selection operators for generation 37.
+2023-07-17 02:51:19,950 INFO: Applying genetic operators for generation 37.
+2023-07-17 02:51:19,952 INFO: Evaluating fitness for for generation 37.
+2023-07-17 02:51:19,952 INFO: Will evaluate fitness for 16 individuals.
+2023-07-17 02:59:16,812 INFO: Applying selection operators for generation 38.
+2023-07-17 02:59:16,813 INFO: Applying genetic operators for generation 38.
+2023-07-17 02:59:16,816 INFO: Evaluating fitness for for generation 38.
+2023-07-17 02:59:16,816 INFO: Will evaluate fitness for 15 individuals.
+2023-07-17 03:06:55,117 INFO: Applying selection operators for generation 39.
+2023-07-17 03:06:55,117 INFO: Applying genetic operators for generation 39.
+2023-07-17 03:06:55,120 INFO: Evaluating fitness for for generation 39.
+2023-07-17 03:06:55,120 INFO: Will evaluate fitness for 11 individuals.
+2023-07-17 03:12:31,846 INFO: Applying selection operators for generation 40.
+2023-07-17 03:12:31,847 INFO: Applying genetic operators for generation 40.
+2023-07-17 03:12:31,849 INFO: Evaluating fitness for for generation 40.
+2023-07-17 03:12:31,849 INFO: Will evaluate fitness for 15 individuals.
+2023-07-17 03:20:09,455 INFO: Saving the results to the folder specified in the arguments.
+2023-07-17 03:20:09,491 INFO: Closing the multiprocessing pool.
+2023-07-17 03:20:09,491 INFO: Experiment finished.
