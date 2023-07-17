@@ -1,7 +1,7 @@
 #!/bin/bash
 #PBS -P CSCI0806
 #PBS -N fashionmnist_pop50_gen50_alexnet_tou10_cxp50_mut20_gmp50_alexnet_epo10_bat128_sed1
-#PBS -l select=1:ncpus=6:ngpus=3
+#PBS -l select=1:ncpus=10:ngpus=3
 #PBS -l walltime=12:00:00
 #PBS -q gpu_3
 #PBS -m abe
