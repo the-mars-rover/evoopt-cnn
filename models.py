@@ -7,8 +7,7 @@ from tensorflow.keras import layers
 def _get_alexnet(input_shape, num_classes):
     return keras.Sequential(
         [
-            keras.Input(shape=input_shape),
-            layers.Conv2D(96, 11, 4, activation='relu', padding='same'),
+            layers.Conv2D(96, 11, 4, activation='relu', padding='same', input_shape=input_shape),
             layers.BatchNormalization(),
             layers.MaxPool2D(3, 2, padding='same'),
             layers.Conv2D(256, 5, 1, activation='relu', padding='same'),

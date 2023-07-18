@@ -28,7 +28,7 @@ if gpus:
         logging.error(e)
 
 # Create a MirroredStrategy for tensorflow
-strategy = tensorflow.distribute.MirroredStrategy(cross_device_ops=tensorflow.distribute.ReductionToOneDevice())
+strategy = tensorflow.distribute.MirroredStrategy()
 
 # The toolbox must be initialized here, otherwise the DEAP library does not work.
 toolbox = base.Toolbox()
@@ -379,7 +379,7 @@ def _register_population_initialization():
 # ========================================= FITNESS EVALUATION =========================================================
 # ======================================================================================================================
 
-def _evaluate(individual, model_name, input_shape, num_classes, x_train, y_train, x_test, y_test, batch_size, epochs):
+def _evaluate(individual, model_name, input_shape, num_classes, train_dataset, val_dataset, test_dataset, epochs):
 
     # Open a strategy scope. Everything that creates variables should be under the strategy scope.
     # In general this is only model construction & `compile()`.
@@ -391,19 +391,18 @@ def _evaluate(individual, model_name, input_shape, num_classes, x_train, y_train
         model.compile(loss="categorical_crossentropy", optimizer=optimizer, metrics=["accuracy"])
 
     # Train the model
-    model.fit(x_train, y_train, batch_size=batch_size, epochs=epochs, validation_split=0.1, verbose=1)
+    model.fit(train_dataset, epochs=epochs, validation_data=val_dataset, verbose=1)
 
     # Return the accuracy of the model as the fitness
-    score = model.evaluate(x_test, y_test, verbose=1)
+    score = model.evaluate(test_dataset, verbose=1)
 
     return [score[1]]
 
 
-def _register_evaluate(model_name, input_shape, num_classes, x_train, y_train, x_test, y_test, batch_size, epochs):
+def _register_evaluate(model_name, input_shape, num_classes, train_dataset, val_dataset, test_dataset, epochs):
     logging.info('Registering the evaluation method.')
     toolbox.register("evaluate", _evaluate, model_name=model_name, input_shape=input_shape, num_classes=num_classes,
-                     x_train=x_train, y_train=y_train, x_test=x_test, y_test=y_test, batch_size=batch_size,
-                     epochs=epochs)
+                     train_dataset=train_dataset, val_dataset=val_dataset, test_dataset=test_dataset, epochs=epochs)
 
 
 # ======================================================================================================================
@@ -567,13 +566,13 @@ def ea_simple(population, toolbox, cxpb, mutpb, ngen, stats=None,
 # ========================================= RUN ALGORITHM ==============================================================
 # ======================================================================================================================
 
-def run(model_name, input_shape, num_classes, x_train, y_train, x_test, y_test, tournsize, batch_size, epochs,
+def run(model_name, input_shape, num_classes, train_dataset, val_dataset, test_dataset, tournsize, epochs,
         gene_mut_prob, pop_size, cxpb, mutpb, ngen, multiprocessing_pool):
     logging.info('Setting up DEAP toolbox.')
     _register_individual()
     _register_population_initialization()
     _register_selection_method(tournsize)
-    _register_evaluate(model_name, input_shape, num_classes, x_train, y_train, x_test, y_test, batch_size, epochs)
+    _register_evaluate(model_name, input_shape, num_classes, train_dataset, val_dataset, test_dataset, epochs)
     _register_genetic_operators(gene_mut_prob)
     toolbox.register("map", multiprocessing_pool.map)
 
