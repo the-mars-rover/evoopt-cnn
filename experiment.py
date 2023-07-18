@@ -52,13 +52,13 @@ if __name__ == '__main__':
     multiprocessing_pool = multiprocessing.Pool(args.cpu_count)
 
     logging.info('Loading dataset for the experiment.')
-    (input_shape, num_classes), (x_train, y_train), (x_test, y_test) = datasets.load_dataset(dataset_name=args.dataset)
+    input_shape, num_classes, train_dataset, val_dataset, test_dataset = datasets.load_dataset(dataset_name=args.dataset, batch_size=args.batch_size)
 
     logging.info("Running the evolutionary algorithm with the given hyper-parameters. This may take a while. Statistics for every generation will be printed below.")
     hof, log = evoopt_cnn.run(
         model_name=args.model, input_shape=input_shape, num_classes=num_classes,
-        x_train=x_train, y_train=y_train, x_test=x_test, y_test=y_test, tournsize=args.tournsize,
-        batch_size=args.batch_size, epochs=args.epochs, gene_mut_prob=args.gene_mut_prob, pop_size=args.pop_size,
+        train_dataset=train_dataset, val_dataset=val_dataset, test_dataset=test_dataset, tournsize=args.tournsize,
+        epochs=args.epochs, gene_mut_prob=args.gene_mut_prob, pop_size=args.pop_size,
         cxpb=args.cxpb, mutpb=args.mutpb, ngen=args.ngen, multiprocessing_pool=multiprocessing_pool)
 
     logging.info('Saving the results to the folder specified in the arguments.')
