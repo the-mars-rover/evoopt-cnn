@@ -388,7 +388,7 @@ def _evaluate(individual, model_name, input_shape, num_classes, train_dataset, v
 
         model = models.get_model(model_name, input_shape, num_classes)
 
-        model.compile(loss="categorical_crossentropy", optimizer=optimizer, metrics=["accuracy"])
+        model.compile(loss=keras.losses.SparseCategoricalCrossentropy(), optimizer=optimizer, metrics=["accuracy"])
 
     # Train the model
     model.fit(train_dataset, epochs=epochs, validation_data=val_dataset, verbose=1)
