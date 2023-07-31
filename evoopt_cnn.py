@@ -28,7 +28,7 @@ if gpus:
         logging.error(e)
 
 # Create a MirroredStrategy for tensorflow
-strategy = tensorflow.distribute.MirroredStrategy()
+strategy = tensorflow.distribute.experimental.CentralStorageStrategy()
 
 # The toolbox must be initialized here, otherwise the DEAP library does not work.
 toolbox = base.Toolbox()
