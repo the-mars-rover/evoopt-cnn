@@ -11,8 +11,6 @@ import logging
 parser = argparse.ArgumentParser(description='Run an experiment using the EvoOpt-CNN algorithm.')
 parser.add_argument('--results_path', dest='results_path', type=str, default='./experiment_results',
                     help='path to the folder where result files will be stored (defaults to \'./experiment_results\')')
-parser.add_argument('--cpu_count', dest='cpu_count', type=int, default=1,
-                    help='the number of CPU cores to use for multiprocessing (defaults to 1)')
 parser.add_argument('--seed', dest='seed', type=int, default=1,
                     help='a seed that can be used in future to produce the same results (defaults to 1)')
 parser.add_argument('--dataset', dest='dataset', choices=['mnist', 'fashion_mnist'], default='mnist',

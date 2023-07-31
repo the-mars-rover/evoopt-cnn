@@ -16,7 +16,6 @@ conda activate evoopt-cnn-env
 cd /mnt/lustre/users/mbornman1/evoopt-cnn
 python3 experiment.py \
  --results_path "/mnt/lustre/users/mbornman1/evoopt-cnn/experiments/fashionmnist_pop100_gen50_alexnet_tou20_cxp50_mut20_gmp50_alexnet_epo10_bat128_sed1" \
- --cpu_count 5 \
  --dataset "fashion_mnist" \
  --seed 1 \
  --pop_size 100 \
