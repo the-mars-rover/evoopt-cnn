@@ -24,11 +24,14 @@ def _load_fashion_mnist(batch_size):
     y_val = y_train[-num_val_samples:]
     x_train = x_train[:-num_val_samples]
     y_train = y_train[:-num_val_samples]
+
+    options = tensorflow.data.Options()
+    options.experimental_distribute.auto_shard_policy = tensorflow.data.experimental.AutoShardPolicy.FILE
     return (
         input_shape, num_classes,
-        tensorflow.data.Dataset.from_tensor_slices((x_train, y_train)).batch(batch_size),
-        tensorflow.data.Dataset.from_tensor_slices((x_val, y_val)).batch(batch_size),
-        tensorflow.data.Dataset.from_tensor_slices((x_test, y_test)).batch(batch_size),
+        tensorflow.data.Dataset.from_tensor_slices((x_train, y_train)).batch(batch_size).with_options(options),
+        tensorflow.data.Dataset.from_tensor_slices((x_val, y_val)).batch(batch_size).with_options(options),
+        tensorflow.data.Dataset.from_tensor_slices((x_test, y_test)).batch(batch_size).with_options(options),
     )
 
 def _load_fashion_mnist_old():
