@@ -48,14 +48,14 @@ _base_index = 0
 
 
 def _learning_rate():
-    return random.choice(numpy.linspace(0, 1, num=10000))
+    return random.choice(numpy.random.uniform(0, 1, size=10000))
 
 
 _learning_rate_index = 1
 
 
 def _momentum():
-    return random.choice([0, random.choice(numpy.linspace(0, 1, num=10000))])
+    return random.choice([0, random.choice(numpy.random.uniform(0, 1, size=10000))])
 
 
 _momentum_index = 2
@@ -76,7 +76,7 @@ _amsgrad_index = 4
 
 
 def _weight_decay():
-    return random.choice([None, random.choice(numpy.linspace(0.000001, 0.01, num=10000))])
+    return random.choice([None, random.choice(numpy.random.uniform(0.000001, 0.01, size=10000))])
 
 
 _weight_decay_index = 5
@@ -90,21 +90,21 @@ _use_ema_index = 6
 
 
 def _ema_momentum():
-    return random.choice(numpy.linspace(0, 1, num=10000))
+    return random.choice(numpy.random.uniform(0, 1, size=10000))
 
 
 _ema_momentum_index = 7
 
 
 def _rho():
-    return random.choice(numpy.linspace(0, 1, num=10000))
+    return random.choice(numpy.random.uniform(0, 1, size=10000))
 
 
 _rho_index = 8
 
 
 def _epsilon():
-    return random.choice(numpy.linspace(0.0000000001, 0.001, num=10000))
+    return random.choice(numpy.random.uniform(0.0000000001, 0.001, size=10000))
 
 
 _epsilon_index = 9
@@ -118,56 +118,56 @@ _centered_index = 10
 
 
 def _beta_1():
-    return random.choice(numpy.linspace(0, 1, num=10000))
+    return random.choice(numpy.random.uniform(0, 1, size=10000))
 
 
 _beta_1_index = 11
 
 
 def _beta_2():
-    return random.choice(numpy.linspace(0, 1, num=10000))
+    return random.choice(numpy.random.uniform(0, 1, size=10000))
 
 
 _beta_2_index = 12
 
 
 def _learning_rate_power():
-    return random.choice(numpy.linspace(-1, 0, 10000))
+    return random.choice(numpy.random.uniform(-1, 0, size=10000))
 
 
 _learning_rate_power_index = 13
 
 
 def _initial_accumulator_value():
-    return random.choice(numpy.linspace(0, 1, 10000))
+    return random.choice(numpy.random.uniform(0, 1, size=10000))
 
 
 _initial_accumulator_value_index = 14
 
 
 def _l1_regularization_strength():
-    return random.choice(numpy.linspace(0, 1, 10000))
+    return random.choice(numpy.random.uniform(0, 1, size=10000))
 
 
 _l1_regularization_strength_index = 15
 
 
 def _l2_regularization_strength():
-    return random.choice(numpy.linspace(0, 1, 10000))
+    return random.choice(numpy.random.uniform(0, 1, size=10000))
 
 
 _l2_regularization_strength_index = 16
 
 
 def _l2_shrinkage_regularization_strength():
-    return random.choice(numpy.linspace(0, 1, 10000))
+    return random.choice(numpy.random.uniform(0, 1, size=10000))
 
 
 _l2_shrinkage_regularization_strength_index = 17
 
 
 def _beta():
-    return random.choice(numpy.linspace(0, 1, 10000))
+    return random.choice(numpy.random.uniform(0, 1, size=10000))
 
 
 _beta_index = 18
