@@ -6,7 +6,7 @@ import tensorflow
 from tensorflow import keras
 
 def _load_fashion_mnist(batch_size):
-    global_batch_size = batch_size * tensorflow.config.list_physical_devices('GPU').len()
+    global_batch_size = batch_size * len(tensorflow.config.list_physical_devices('GPU'))
     input_shape = (28, 28, 1)
     num_classes = 10
     num_val_samples = 10000
