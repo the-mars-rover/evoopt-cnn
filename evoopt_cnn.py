@@ -28,7 +28,7 @@ if gpus:
         logging.error(e)
 
 # Create a MirroredStrategy for tensorflow
-strategy = tensorflow.distribute.MirroredStrategy(cross_device_ops=tensorflow.distribute.ReductionToOneDevice())
+strategy = tensorflow.distribute.MirroredStrategy()
 
 # The toolbox must be initialized here, otherwise the DEAP library does not work.
 toolbox = base.Toolbox()
