@@ -22,7 +22,7 @@ python3 experiment.py \
  --ngen 5 \
  --model "alexnet" \
  --epochs 10 \
- --batch_size 128 \
+ --batch_size 1024 \
  --tournsize 3 \
  --cxpb 0.8 \
  --mutpb 0.2 \

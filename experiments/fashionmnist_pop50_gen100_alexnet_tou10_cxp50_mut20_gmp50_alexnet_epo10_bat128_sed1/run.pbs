@@ -1,7 +1,7 @@
 #!/bin/bash
 #PBS -P CSCI0806
 #PBS -N fashionmnist_pop50_gen100_alexnet_tou10_cxp50_mut20_gmp50_alexnet_epo10_bat128_sed1
-#PBS -l select=1:ncpus=10:ngpus=4
+#PBS -l select=1:ncpus=4:ngpus=4
 #PBS -l walltime=12:00:00
 #PBS -q gpu_4
 #PBS -m abe
@@ -26,4 +26,4 @@ python3 experiment.py \
  --gene_mut_prob 0.5 \
  --model "alexnet" \
  --epochs 10 \
- --batch_size 128
+ --batch_size 1024
