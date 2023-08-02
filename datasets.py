@@ -6,7 +6,6 @@ import tensorflow
 from tensorflow import keras
 
 def _load_fashion_mnist(batch_size):
-    global_batch_size = batch_size * len(tensorflow.config.list_physical_devices('GPU'))
     input_shape = (28, 28, 1)
     num_classes = 10
     num_val_samples = 10000
@@ -30,9 +29,9 @@ def _load_fashion_mnist(batch_size):
     options.experimental_distribute.auto_shard_policy = tensorflow.data.experimental.AutoShardPolicy.FILE
     return (
         input_shape, num_classes,
-        tensorflow.data.Dataset.from_tensor_slices((x_train, y_train)).cache().batch(global_batch_size).with_options(options),
-        tensorflow.data.Dataset.from_tensor_slices((x_val, y_val)).cache().batch(global_batch_size).with_options(options),
-        tensorflow.data.Dataset.from_tensor_slices((x_test, y_test)).cache().batch(global_batch_size).with_options(options),
+        tensorflow.data.Dataset.from_tensor_slices((x_train, y_train)).cache().batch(batch_size).with_options(options),
+        tensorflow.data.Dataset.from_tensor_slices((x_val, y_val)).cache().batch(batch_size).with_options(options),
+        tensorflow.data.Dataset.from_tensor_slices((x_test, y_test)).cache().batch(batch_size).with_options(options),
     )
 
 def _load_fashion_mnist_old():

@@ -27,9 +27,6 @@ if gpus:
     except RuntimeError as e:
         logging.error(e)
 
-# Create a MirroredStrategy for tensorflow
-strategy = tensorflow.distribute.experimental.CentralStorageStrategy()
-
 # The toolbox must be initialized here, otherwise the DEAP library does not work.
 toolbox = base.Toolbox()
 creator.create("FitnessMax", base.Fitness, weights=(1.0,))
@@ -383,12 +380,11 @@ def _evaluate(individual, model_name, input_shape, num_classes, train_dataset, v
 
     # Open a strategy scope. Everything that creates variables should be under the strategy scope.
     # In general this is only model construction & `compile()`.
-    with strategy.scope():
-        optimizer = get_optimizer(individual)
+    optimizer = get_optimizer(individual)
 
-        model = models.get_model(model_name, input_shape, num_classes)
+    model = models.get_model(model_name, input_shape, num_classes)
 
-        model.compile(loss=keras.losses.SparseCategoricalCrossentropy(), optimizer=optimizer, metrics=["accuracy"])
+    model.compile(loss=keras.losses.SparseCategoricalCrossentropy(), optimizer=optimizer, metrics=["accuracy"])
 
     # Train the model
     model.fit(train_dataset, epochs=epochs, validation_data=val_dataset, verbose=1)
