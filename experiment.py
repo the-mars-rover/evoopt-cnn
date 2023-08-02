@@ -6,6 +6,7 @@ import argparse
 import evoopt_cnn
 import datasets
 import logging
+import multiprocessing
 
 # Setup the argument parser for this script
 parser = argparse.ArgumentParser(description='Run an experiment using the EvoOpt-CNN algorithm.')
@@ -44,6 +45,10 @@ if __name__ == '__main__':
     logging.info('Setting the random number generator seed for this experiment.')
     random.seed(args.seed)
 
+    logging.info('Initializing the multiprocessing pool.')
+    multiprocessing.set_start_method('spawn')
+    multiprocessing_pool = multiprocessing.Pool(args.cpu_count)
+
     logging.info('Loading dataset for the experiment.')
     input_shape, num_classes, train_dataset, val_dataset, test_dataset = datasets.load_dataset(dataset_name=args.dataset, batch_size=args.batch_size)
 
@@ -52,7 +57,7 @@ if __name__ == '__main__':
         model_name=args.model, input_shape=input_shape, num_classes=num_classes,
         train_dataset=train_dataset, val_dataset=val_dataset, test_dataset=test_dataset, tournsize=args.tournsize,
         epochs=args.epochs, gene_mut_prob=args.gene_mut_prob, pop_size=args.pop_size,
-        cxpb=args.cxpb, mutpb=args.mutpb, ngen=args.ngen)
+        cxpb=args.cxpb, mutpb=args.mutpb, ngen=args.ngen, multiprocessing_pool=multiprocessing_pool)
 
     logging.info('Saving the results to the folder specified in the arguments.')
     file = open(args.results_path + '/log.pkl', 'wb')
@@ -61,5 +66,8 @@ if __name__ == '__main__':
     file = open(args.results_path + '/hof.pkl', 'wb')
     pickle.dump(hof, file)
     file.close()
+
+    logging.info('Closing the multiprocessing pool.')
+    multiprocessing_pool.close()
 
     logging.info('Experiment finished.')

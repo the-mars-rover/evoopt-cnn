@@ -567,13 +567,14 @@ def ea_simple(population, toolbox, cxpb, mutpb, ngen, stats=None,
 # ======================================================================================================================
 
 def run(model_name, input_shape, num_classes, train_dataset, val_dataset, test_dataset, tournsize, epochs,
-        gene_mut_prob, pop_size, cxpb, mutpb, ngen):
+        gene_mut_prob, pop_size, cxpb, mutpb, ngen, multiprocessing_pool):
     logging.info('Setting up DEAP toolbox.')
     _register_individual()
     _register_population_initialization()
     _register_selection_method(tournsize)
     _register_evaluate(model_name, input_shape, num_classes, train_dataset, val_dataset, test_dataset, epochs)
     _register_genetic_operators(gene_mut_prob)
+    toolbox.register("map", multiprocessing_pool.map)
 
     logging.info('Setting up the hall of fame and stats we want to keep track of.')
     hof = tools.HallOfFame(10)
