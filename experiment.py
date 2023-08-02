@@ -48,7 +48,6 @@ if __name__ == '__main__':
     random.seed(args.seed)
 
     logging.info('Initializing the multiprocessing pool.')
-    multiprocessing.set_start_method('spawn')
     multiprocessing_pool = multiprocessing.Pool(args.cpu_count)
 
     logging.info('Loading dataset for the experiment.')
