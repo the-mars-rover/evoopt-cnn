@@ -3,8 +3,8 @@
 import random
 import numpy
 import models
-import tensorflow
-import os
+# import tensorflow
+# import os
 import logging
 import datasets
 
@@ -19,14 +19,14 @@ from tensorflow import keras
 # ======================================================================================================================
 
 # Make sure we enable memory growth for all GPUs, because we do not want to allocate all memory on the devices.
-os.environ['TF_FORCE_GPU_ALLOW_GROWTH'] = 'true'
-gpus = tensorflow.config.list_physical_devices('GPU')
-if gpus:
-    try:
-        for gpu in gpus:
-            tensorflow.config.experimental.set_memory_growth(gpu, True)
-    except RuntimeError as e:
-        logging.error(e)
+# os.environ['TF_FORCE_GPU_ALLOW_GROWTH'] = 'true'
+# gpus = tensorflow.config.list_physical_devices('GPU')
+# if gpus:
+#     try:
+#         for gpu in gpus:
+#             tensorflow.config.experimental.set_memory_growth(gpu, True)
+#     except RuntimeError as e:
+#         logging.error(e)
 
 # The toolbox must be initialized here, otherwise the DEAP library does not work.
 toolbox = base.Toolbox()
