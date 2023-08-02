@@ -6,7 +6,8 @@ import argparse
 import evoopt_cnn
 import datasets
 import logging
-import multiprocessing
+
+from ray.util.multiprocessing import Pool
 
 # Setup the argument parser for this script
 parser = argparse.ArgumentParser(description='Run an experiment using the EvoOpt-CNN algorithm.')
@@ -48,8 +49,7 @@ if __name__ == '__main__':
     random.seed(args.seed)
 
     logging.info('Initializing the multiprocessing pool.')
-    multiprocessing.set_start_method('spawn')
-    multiprocessing_pool = multiprocessing.Pool(args.cpu_count)
+    multiprocessing_pool = Pool(processes=args.cpu_count)
 
     logging.info('Loading dataset for the experiment.')
     input_shape, num_classes, train_dataset, val_dataset, test_dataset = datasets.load_dataset(dataset_name=args.dataset, batch_size=args.batch_size)
