@@ -6,6 +6,7 @@ import models
 import tensorflow
 import os
 import logging
+import datasets
 
 from deap import base
 from deap import creator
@@ -377,6 +378,8 @@ def _register_population_initialization():
 # ======================================================================================================================
 
 def _evaluate(individual, model_name, input_shape, num_classes, train_dataset, val_dataset, test_dataset, epochs):
+
+    input_shape, num_classes, train_dataset, val_dataset, test_dataset = datasets.load_dataset(dataset_name='fashion_mnist', batch_size=512)
 
     # Open a strategy scope. Everything that creates variables should be under the strategy scope.
     # In general this is only model construction & `compile()`.
