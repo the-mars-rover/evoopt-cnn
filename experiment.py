@@ -4,7 +4,6 @@ import pickle
 import random
 import argparse
 import evoopt_cnn
-import datasets
 import logging
 import multiprocessing
 
@@ -50,13 +49,9 @@ if __name__ == '__main__':
     logging.info('Initializing the multiprocessing pool.')
     multiprocessing_pool = multiprocessing.Pool(args.cpu_count)
 
-    logging.info('Loading dataset for the experiment.')
-    input_shape, num_classes, train_dataset, val_dataset, test_dataset = datasets.load_dataset(dataset_name=args.dataset, batch_size=args.batch_size)
-
     logging.info("Running the evolutionary algorithm with the given hyper-parameters. This may take a while. Statistics for every generation will be printed below.")
     hof, log = evoopt_cnn.run(
-        model_name=args.model, input_shape=input_shape, num_classes=num_classes,
-        train_dataset=train_dataset, val_dataset=val_dataset, test_dataset=test_dataset, tournsize=args.tournsize,
+        model_name=args.model, dataset_name=args.dataset, batch_size=args.batch_size, tournsize=args.tournsize,
         epochs=args.epochs, gene_mut_prob=args.gene_mut_prob, pop_size=args.pop_size,
         cxpb=args.cxpb, mutpb=args.mutpb, ngen=args.ngen, multiprocessing_pool=multiprocessing_pool)
 

@@ -2,17 +2,12 @@
 
 import random
 import numpy
-import models
-# import tensorflow
-# import os
 import logging
-import datasets
 
 from deap import base
 from deap import creator
 from deap import tools
 from deap import algorithms
-from tensorflow import keras
 
 # ======================================================================================================================
 # ========================================= INITIAL SETUP ==============================================================
@@ -196,7 +191,8 @@ def individual_string(individual):
 
 # The method to get the NN Optimizer given an individual. We make this function public since we may later want to get
 # an optimizer from a list again when analyzing results.
-def get_optimizer(individual) -> keras.optimizers.Optimizer:
+def get_optimizer(individual):
+    from tensorflow import keras
     logging.info('Building the Keras optimizer to use for %s.', individual_string(individual))
 
     if individual[_base_index] == "SGD":
@@ -377,9 +373,13 @@ def _register_population_initialization():
 # ========================================= FITNESS EVALUATION =========================================================
 # ======================================================================================================================
 
-def _evaluate(individual, model_name, input_shape, num_classes, train_dataset, val_dataset, test_dataset, epochs):
+def _evaluate(individual, model_name, dataset_name, batch_size, epochs):
+    import datasets
+    import models
+    from tensorflow import keras
 
-    input_shape, num_classes, train_dataset, val_dataset, test_dataset = datasets.load_dataset(dataset_name='fashion_mnist', batch_size=512)
+    input_shape, num_classes, train_dataset, val_dataset, test_dataset = datasets.load_dataset(
+        dataset_name=dataset_name, batch_size=batch_size)
 
     # Open a strategy scope. Everything that creates variables should be under the strategy scope.
     # In general this is only model construction & `compile()`.
@@ -398,10 +398,10 @@ def _evaluate(individual, model_name, input_shape, num_classes, train_dataset, v
     return [score[1]]
 
 
-def _register_evaluate(model_name, input_shape, num_classes, train_dataset, val_dataset, test_dataset, epochs):
+def _register_evaluate(model_name, dataset_name, batch_size, epochs):
     logging.info('Registering the evaluation method.')
-    toolbox.register("evaluate", _evaluate, model_name=model_name, input_shape=input_shape, num_classes=num_classes,
-                     train_dataset=train_dataset, val_dataset=val_dataset, test_dataset=test_dataset, epochs=epochs)
+    toolbox.register("evaluate", _evaluate, model_name=model_name, dataset_name=dataset_name,
+                     batch_size=batch_size, epochs=epochs)
 
 
 # ======================================================================================================================
@@ -565,13 +565,13 @@ def ea_simple(population, toolbox, cxpb, mutpb, ngen, stats=None,
 # ========================================= RUN ALGORITHM ==============================================================
 # ======================================================================================================================
 
-def run(model_name, input_shape, num_classes, train_dataset, val_dataset, test_dataset, tournsize, epochs,
+def run(model_name, dataset_name, batch_size, tournsize, epochs,
         gene_mut_prob, pop_size, cxpb, mutpb, ngen, multiprocessing_pool):
     logging.info('Setting up DEAP toolbox.')
     _register_individual()
     _register_population_initialization()
     _register_selection_method(tournsize)
-    _register_evaluate(model_name, input_shape, num_classes, train_dataset, val_dataset, test_dataset, epochs)
+    _register_evaluate(model_name, dataset_name, batch_size, epochs)
     _register_genetic_operators(gene_mut_prob)
     toolbox.register("map", multiprocessing_pool.map)
 
