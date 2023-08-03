@@ -3,6 +3,7 @@
 import random
 import numpy
 import logging
+import multiprocessing
 
 from deap import base
 from deap import creator
@@ -12,16 +13,6 @@ from deap import algorithms
 # ======================================================================================================================
 # ========================================= INITIAL SETUP ==============================================================
 # ======================================================================================================================
-
-# Make sure we enable memory growth for all GPUs, because we do not want to allocate all memory on the devices.
-# os.environ['TF_FORCE_GPU_ALLOW_GROWTH'] = 'true'
-# gpus = tensorflow.config.list_physical_devices('GPU')
-# if gpus:
-#     try:
-#         for gpu in gpus:
-#             tensorflow.config.experimental.set_memory_growth(gpu, True)
-#     except RuntimeError as e:
-#         logging.error(e)
 
 # The toolbox must be initialized here, otherwise the DEAP library does not work.
 toolbox = base.Toolbox()
@@ -379,9 +370,11 @@ def _evaluate(individual, model_name, dataset_name, batch_size, epochs):
     import datasets
     import models
 
+    curr_proc_id = multiprocessing.current_process().pid
     gpus = tensorflow.config.list_physical_devices('GPU')
-    least_used_gpu = min({g: tensorflow.config.experimental.get_memory_info(g.name[-5:])['current'] for g in gpus})
-    tensorflow.config.experimental.set_visible_devices(least_used_gpu, 'GPU')
+    gpu_to_use = gpus[curr_proc_id % len(gpus)]
+    tensorflow.config.experimental.set_visible_devices(gpu_to_use, 'GPU')
+    tensorflow.config.experimental.set_memory_growth(gpu_to_use, True)
 
     input_shape, num_classes, train_dataset, val_dataset, test_dataset = datasets.load_dataset(
         dataset_name=dataset_name, batch_size=batch_size)
