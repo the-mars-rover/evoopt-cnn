@@ -1,13 +1,13 @@
 #!/bin/bash
 #PBS -P CSCI0806
-#PBS -N fashionmnist_pop20_gen40_alexnet_tou5_cxp50_mut20_gmp50_alexnet_epo10_bat128_sed1
+#PBS -N fashionmnist_pop20_gen40_alexnet_tou5_cxp50_mut20_gmp50_alexnet_epo10_bat1024_sed1
 #PBS -l select=1:ncpus=4:ngpus=2
 #PBS -l walltime=12:00:00
 #PBS -q gpu_2
 #PBS -m abe
 #PBS -M u15024522@tuks.co.za
-#PBS -o /mnt/lustre/users/mbornman1/evoopt-cnn/experiments/fashionmnist_pop20_gen40_alexnet_tou5_cxp50_mut20_gmp50_alexnet_epo10_bat128_sed1/job.out
-#PBS -e /mnt/lustre/users/mbornman1/evoopt-cnn/experiments/fashionmnist_pop20_gen40_alexnet_tou5_cxp50_mut20_gmp50_alexnet_epo10_bat128_sed1/job.err
+#PBS -o /mnt/lustre/users/mbornman1/evoopt-cnn/experiments/fashionmnist_pop20_gen40_alexnet_tou5_cxp50_mut20_gmp50_alexnet_epo10_bat1024_sed1/job.out
+#PBS -e /mnt/lustre/users/mbornman1/evoopt-cnn/experiments/fashionmnist_pop20_gen40_alexnet_tou5_cxp50_mut20_gmp50_alexnet_epo10_bat1024_sed1/job.err
 #PBS
 module purge
 module load chpc/python/anaconda/3-2021.11
@@ -15,7 +15,7 @@ source /apps/chpc/chem/anaconda3-2021.11/etc/profile.d/conda.sh
 conda activate evoopt-cnn-env
 cd /mnt/lustre/users/mbornman1/evoopt-cnn
 python3 experiment.py \
- --results_path "/mnt/lustre/users/mbornman1/evoopt-cnn/experiments/fashionmnist_pop20_gen40_alexnet_tou5_cxp50_mut20_gmp50_alexnet_epo10_bat128_sed1" \
+ --results_path "/mnt/lustre/users/mbornman1/evoopt-cnn/experiments/fashionmnist_pop20_gen40_alexnet_tou5_cxp50_mut20_gmp50_alexnet_epo10_bat1024_sed1" \
  --cpu_count 2 \
  --dataset "fashion_mnist" \
  --seed 1 \
