@@ -374,9 +374,14 @@ def _register_population_initialization():
 # ======================================================================================================================
 
 def _evaluate(individual, model_name, dataset_name, batch_size, epochs):
+    import tensorflow
+    from tensorflow import keras
     import datasets
     import models
-    from tensorflow import keras
+
+    gpus = tensorflow.config.list_physical_devices('GPU')
+    least_used_gpu = min({g: tensorflow.config.experimental.get_memory_info(g.name[-5:])['current'] for g in gpus})
+    tensorflow.config.experimental.set_visible_devices(least_used_gpu, 'GPU')
 
     input_shape, num_classes, train_dataset, val_dataset, test_dataset = datasets.load_dataset(
         dataset_name=dataset_name, batch_size=batch_size)
