@@ -22,8 +22,8 @@ python3 experiment.py \
  --pop_size 20 \
  --ngen 40 \
  --tournsize 5 \
- --cxpb 0.5 \
- --mutpb 0.2 \
+ --cxpb 0.7 \
+ --mutpb 0.3 \
  --gene_mut_prob 0.5 \
  --model "alexnet" \
  --epochs 10 \
